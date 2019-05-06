@@ -1,0 +1,39 @@
+{
+  "name": "jsvcn",
+  "version": "1.0.1",
+  "description": "CodeNotary JS Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rollup index.js --file dist/jsvcn.js --format iife --name jsvcn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://vchain@github.com/vchain/jsvcn.git"
+  },
+  "keywords": [
+    "vcn",
+    "codenotary",
+    "vchain",
+    "js",
+    "javascript"
+  ],
+  "author": "vChain Inc.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vchain/jsvcn"
+  },
+  "homepage": "https://github.com/vchain/jsvcn#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.1",
+    "babel-loader": "^8.0.5",
+    "jest": "^24.5.0",
+    "rollup": "^1.7.4"
+  },
+  "dependencies": {
+    "env-universal": "^0.4.0",
+    "js-sha256": "^0.9.0",
+    "web3": "1.0.0-beta.46"
+  }
+}
