@@ -1,7 +1,9 @@
-const fr = new FileReader();
+const fr = null
 
 const browserFileReader = (file, chunkSize, callback) => {
 	let offset = 0;
+
+	fr = new FileReader();
 	fr.onload = function () {
 		callback(null, {
 			offset,
