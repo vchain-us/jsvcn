@@ -1,9 +1,9 @@
 
 import getEnv from 'env-universal';
+import Verify from './lib/verify';
 import browserFileReader from './utils/browserFileReader'
 // import serverFileReader from './utils/serverFileReader'
 import { ASSET_URL, BLOCKCHAIN_URL } from './config'
-import { verifyHash, verifyFile } from './lib/verify';
 
 class Jsvcn {
 
@@ -24,13 +24,14 @@ class Jsvcn {
 
 	verify = (input) => {
 		const { blockchainUrl, assetUrl } = this
+		const verify = new Verify({ blockchainUrl, assetUrl })
 
 		if (typeof input === "string") {
-			return verifyHash(input, { blockchainUrl, assetUrl })
+			return verify.hash(input)
 
 		} else if (input instanceof File) { //todo serverfile 
 
-			return verifyFile(input, this.fileReader, { blockchainUrl, assetUrl })
+			return verify.file(input, this.fileReader)
 
 		} else {
 

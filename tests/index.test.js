@@ -1,15 +1,17 @@
-jest.mock('../lib/verify', () => ({
-	verifyHash: jest.fn(),
-	verifyFile: jest.fn()
-}))
+
+const mockHash = jest.fn()
+const mockFile = jest.fn()
+jest.mock('../lib/verify', () => () => ({
+	hash: mockHash,
+	file: mockFile,
+}));
 
 import Jsvcn from '../index'
-import verify from '../lib/verify'
 import { ASSET_URL, BLOCKCHAIN_URL } from '../config'
 
-const URL = "http://test.local"
+const TEST_URL = "http://test.local"
 
-const FILE = new File(["foo"], "foo.txt", {
+const TEST_FILE = new File(["foo"], "foo.txt", {
 	type: "text/plain",
 });
 
@@ -47,15 +49,15 @@ describe('jsvcn', () => {
 
 		it('should accept custom asset api url', () => {
 
-			const jsvcn = new Jsvcn({ assetUrl: URL });
-			expect(jsvcn.assetUrl).toEqual(URL);
+			const jsvcn = new Jsvcn({ assetUrl: TEST_URL });
+			expect(jsvcn.assetUrl).toEqual(TEST_URL);
 
 		});
 
 		it('should accept custom blockhain api url', () => {
 
-			const jsvcn = new Jsvcn({ blockchainUrl: URL });
-			expect(jsvcn.blockchainUrl).toEqual(URL);
+			const jsvcn = new Jsvcn({ blockchainUrl: TEST_URL });
+			expect(jsvcn.blockchainUrl).toEqual(TEST_URL);
 
 		});
 
@@ -77,17 +79,15 @@ describe('jsvcn', () => {
 
 		const jsvcn = new Jsvcn();
 
-		it('should call verifyHash when input is string', () => {
+		it('should call hash verify when input is string', () => {
 			jsvcn.verify("hajshdkhashdk23z7682368")
-			expect(verify.verifyHash).toHaveBeenCalled();
+			expect(mockHash).toHaveBeenCalled();
 		});
 
-		it('should call verifyFile when input is File instance', () => {
-			jsvcn.verify(FILE);
-			expect(verify.verifyFile).toHaveBeenCalled();
-
+		it('should call file verify when input is File instance', () => {
+			jsvcn.verify(TEST_FILE);
+			expect(mockFile).toHaveBeenCalled();
 		});
-
 
 		it('should throw error when first argument is not string or file', () => {
 
