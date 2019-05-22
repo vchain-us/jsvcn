@@ -1,7 +1,7 @@
 
 import getEnv from 'env-universal';
 import Verify from './lib/verify';
-import browserFileReader from './utils/browserFileReader'
+import browserFileReader from './utils/fileReader'
 // import serverFileReader from './utils/serverFileReader'
 import { ASSET_URL, BLOCKCHAIN_URL } from './config'
 

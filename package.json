@@ -35,6 +35,7 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "env-universal": "^0.4.0",
+    "filereader": "^0.10.3",
     "js-sha256": "^0.9.0",
     "web3": "^1.0.0-beta.46"
   }

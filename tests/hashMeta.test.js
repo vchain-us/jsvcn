@@ -4,6 +4,10 @@ const ABCD_HASH = "32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ec
 
 describe('metahash', () => {
 
+	it('should return with valid sha256 hash when all args are provided', () => {
+		expect(hashMeta("a", "b", "c", "d")).toEqual(ABCD_HASH);
+	});
+
 	it('should return empty string when first arg is empty', () => {
 		expect(hashMeta(null, "a", "b", "c")).toEqual("");
 	});
@@ -17,12 +21,7 @@ describe('metahash', () => {
 	});
 
 	it('should return empty string when fourth arg is empty', () => {
-		expect(hashMeta("a", "b", "c")).toEqual("");
+		expect(hashMeta("a", "b", "c", null)).toEqual("");
 	});
-
-	it('should return with valid sha256 hash when all args are provided', () => {
-		expect(hashMeta("a", "b", "c", "d")).toEqual(ABCD_HASH);
-	});
-
 
 });
