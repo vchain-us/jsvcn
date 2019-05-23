@@ -39,20 +39,20 @@ OR use the bundled version:
 
 ## Example
 
-``` 
+```javascript
 const jsvcn = new Jsvcn();
 
 const FILE = new File(...);
 
 jsvcn.verify(FILE).then({valid, meta}){
-	...
+...
 })
 
 ```
 
 Verify command always returns with a Promise. If you prefer you can use async-await syntax as well: 
 
-``` 
+``` javascript
 const jsvcn = new Jsvcn();
 
 async function myMethod(){
@@ -64,7 +64,7 @@ async function myMethod(){
 
 It is also possible to verify the sha256 hash of an asset directly: 
 
-``` 
+``` javascript
 const HASH = "32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70";
 const {valid, meta} = await jsvcn.verify(HASH);
 
@@ -72,9 +72,9 @@ const {valid, meta} = await jsvcn.verify(HASH);
 
 When you verify large files (>50 MB) we provide a progress callback as a second parameter which periodically returns with the percent of the hashing progress: 
 
-``` 
+``` javascript
 const {valid, meta} = await jsvcn.verify(FILE, progress => {
-
+	...
 });
 
 ``` 
