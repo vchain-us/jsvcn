@@ -91,7 +91,7 @@ describe('jsvcn', () => {
 
 		it('should throw error when first argument is not string or file', () => {
 
-			expect(() => { jsvcn.verify(1267162) }).toThrowError("Wrong input, please provide hash or file instance")
+			expect(() => { jsvcn.verify(1267162) }).toThrowError("Invalid frist argument, please provide a hash or a File.")
 
 		});
 

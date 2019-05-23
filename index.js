@@ -22,20 +22,21 @@ class Jsvcn {
 	}
 
 
-	verify = (input) => {
+	verify = (input, onProgress) => {
 		const { blockchainUrl, assetUrl } = this
 		const verify = new Verify({ blockchainUrl, assetUrl })
 
 		if (typeof input === "string") {
+
 			return verify.hash(input)
 
-		} else if (input instanceof File) { 
+		} else if (input instanceof File) {
 
-			return verify.file(input, this.fileReader)
+			return verify.file(input, onProgress)
 
 		} else {
 
-			throw new Error("Wrong input, please provide hash or file instance")
+			throw new Error("Invalid frist argument, please provide a hash or a File.")
 
 		}
 	}
