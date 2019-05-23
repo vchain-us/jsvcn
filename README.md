@@ -4,16 +4,17 @@
 
 > Global, de-centralized signing of code and other digital assets.
 
-This package provides an easy to use universal javascript client for the [Code Notary](https://www.codenotary.io)
+This package provides an easy to use universal javascript client for the [CodeNotary](https://www.codenotary.io)
 platform. 
 
 ## Features: 
 
-- verify digital assets or the hash of assets via the Codenotary Blockchain
+- verify digital assets via the Codenotary Blockchain
 - query asset metadata from Codenotary Platform 
 
-Asset verification happens on 100% client-side (in the browser or in node.js on the client's server) in memory. 
-The library uses chunk-based file hashing to keep memory usage low. 
+Asset verification happens on 100% client-side in memory (in the browser or when you use it in node.js on the client server).
+The library uses superfast chunk-based file hashing to keep memory usage low. 
+Please note: The asset you verify never leaves your environment, this library sends only the hash of it to CodeNotary. 
 
 ## Install: 
 
@@ -42,7 +43,7 @@ const jsvcn = new Jsvcn();
 const FILE = new File(...);
 
 jsvcn.verify(FILE).then({valid, meta}){
-	console.log(valid, meta);
+// console.log(valid, meta);
 })
 
 ```
@@ -54,7 +55,7 @@ const jsvcn = new Jsvcn();
 
 async function myMethod(){
 	const {valid, meta} = await jsvcn.verify(FILE);
-	console.log(valid, meta);
+	// console.log(valid, meta);
 }
 
 ```
@@ -64,15 +65,15 @@ It is also possible to verify the sha256 hash of an asset directly:
 ``` 
 const HASH = "32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70";
 const {valid, meta} = await jsvcn.verify(HASH);
-console.log(valid, meta);
+// console.log(valid, meta);
 
 ``` 
 
 When you verify large files (>50 MB) we provide a progress callback as a second parameter: 
 
 ``` 
-const {valid, meta} = await jsvcn.verify(FILE,(progress)=>{
-	console.log(progess) // progress in percent
+const {valid, meta} = await jsvcn.verify(FILE, progress => {
+	// console.log(progess) - progress in percent
 });
 
 ``` 
