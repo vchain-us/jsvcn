@@ -22,7 +22,9 @@ Use npm or yarn to add it to your ES6 project:
 
 ``` 
 npm install jsvcn
+
 or
+
 yarn add jsvcn
 
 import Jsvcn from "jsvcn"
@@ -43,7 +45,7 @@ const jsvcn = new Jsvcn();
 const FILE = new File(...);
 
 jsvcn.verify(FILE).then({valid, meta}){
-// console.log(valid, meta);
+	...
 })
 
 ```
@@ -55,7 +57,7 @@ const jsvcn = new Jsvcn();
 
 async function myMethod(){
 	const {valid, meta} = await jsvcn.verify(FILE);
-	// console.log(valid, meta);
+	...
 }
 
 ```
@@ -65,15 +67,14 @@ It is also possible to verify the sha256 hash of an asset directly:
 ``` 
 const HASH = "32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70";
 const {valid, meta} = await jsvcn.verify(HASH);
-// console.log(valid, meta);
 
 ``` 
 
-When you verify large files (>50 MB) we provide a progress callback as a second parameter: 
+When you verify large files (>50 MB) we provide a progress callback as a second parameter which periodically returns with the percent of the hashing progress: 
 
 ``` 
 const {valid, meta} = await jsvcn.verify(FILE, progress => {
-	// console.log(progess) - progress in percent
+
 });
 
 ``` 
