@@ -40,12 +40,11 @@ OR use the bundled version:
 ## Example
 
 ```javascript
-const jsvcn = new Jsvcn();
-
 const FILE = new File(...);
 
+const jsvcn = new Jsvcn();
 jsvcn.verify(FILE).then({valid, meta}){
-...
+ ...
 })
 
 ```
@@ -53,11 +52,10 @@ jsvcn.verify(FILE).then({valid, meta}){
 Verify command always returns with a Promise. If you prefer you can use async-await syntax as well: 
 
 ``` javascript
-const jsvcn = new Jsvcn();
 
 async function myMethod(){
-	const {valid, meta} = await jsvcn.verify(FILE);
-	...
+ const {valid, meta} = await jsvcn.verify(FILE);
+ ...
 }
 
 ```
@@ -74,7 +72,7 @@ When you verify large files (>50 MB) we provide a progress callback as a second 
 
 ``` javascript
 const {valid, meta} = await jsvcn.verify(FILE, progress => {
-	...
+ ...
 });
 
 ``` 
