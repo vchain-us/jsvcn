@@ -29,7 +29,7 @@ class Jsvcn {
 		if (typeof input === "string") {
 			return verify.hash(input)
 
-		} else if (input instanceof File) { //todo serverfile 
+		} else if (input instanceof File) { 
 
 			return verify.file(input, this.fileReader)
 
