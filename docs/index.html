@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>CodeNotary Verify Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+		<h1 class="my-0 mr-md-auto font-weight-normal">Jsvcn Demo
+		</h1>
+
+		<a class="btn btn-outline-primary" href="https://github.com/peet86/cart-localstorage">Github Repository</a>
+	</div>
+	<div class="container">
+	
+		<div class="card mb-4 shadow-sm">
+			<div class="card-header">
+				<h2>File verification</h2>
+			</div>
+			<div class="card-body">
+			
+			</div>
+		</div>
+		<div class="card mb-4 shadow-sm">
+				<div class="card-header">
+					<h2>Hash verification</h2>
+				</div>
+				<div class="card-body">
+				
+				</div>
+			</div>
+	</div>
+	<script src="jsvcn.umd.js"></script>
+	<script>
+		const $hashInput = document.querySelector(".hash")
+		const $fileInput = document.querySelector(".file")
+		const $hash = document.querySelector(".hashDisplay")
+
+		const jsvcn = new Jsvcn();
+		
+		jsvcn.verify("dsasdashgdjkhasd").then(({ isValid, data }) => {
+			console.log({ isValid, data })
+		})
+		/*
+
+		jsvcn.verify(file).then(({isValid, data}) => {
+			console.log({ isValid, data })
+		})*/
+		
+		function validate(items) {
+
+			//$hash.innerHTML = 
+		}
+		$fileInput.onChange(renderCart)
+	</script>
+</body>
+
+</html>
