@@ -1,5 +1,4 @@
 
-import getEnv from 'env-universal';
 import Verify from './lib/verify';
 import browserFileReader from './utils/fileReader'
 // import serverFileReader from './utils/serverFileReader'
@@ -9,8 +8,6 @@ class Jsvcn {
 
 	constructor(options) {
 		const confg = options || {}
-		// environment 
-		this.env = getEnv();
 
 		// endpoints		
 		this.assetUrl = confg.assetUrl || ASSET_URL;

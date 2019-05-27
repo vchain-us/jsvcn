@@ -32,12 +32,6 @@ describe('jsvcn', () => {
 
 		});
 
-		it('should be aware of current js environment', () => {
-			expect(jsvcn.env.is.client).toBeFalsy();
-			expect(jsvcn.env.is.server).toBeFalsy();
-			expect(jsvcn.env.is.test).toBeTruthy();
-		});
-
 		it('should use some kind of file reader by default', () => {
 
 			expect(jsvcn.fileReader).toBeInstanceOf(Function);
