@@ -1,4 +1,4 @@
-import { status, level } from "../lib/enums"
+import { status, level } from "../utils/enums"
 
 describe('status', () => {
 
