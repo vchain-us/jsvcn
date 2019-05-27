@@ -4,7 +4,7 @@
 
 > Global, de-centralized signing of code and other digital assets.
 
-This package provides an easy to use universal javascript client for the [CodeNotary](https://www.codenotary.io)
+This package provides an easy to use javascript client for the [CodeNotary](https://www.codenotary.io)
 platform. 
 
 ## Features: 
@@ -18,22 +18,13 @@ Please note: The asset you verify never leaves your environment, this library se
 
 ## Install: 
 
-Use npm or yarn to add it to your ES6 project: 
+Use npm or yarn to add it to your ES6 JavaScript project: 
 
 ``` 
 npm install jsvcn
 
-or
-
-yarn add jsvcn
-
 import Jsvcn from "jsvcn"
-```
 
-OR use the bundled version: 
-
-```
-<script src="/jsvcn/dist/jsvcn.min.js"></script>
 ```
 
 
@@ -76,8 +67,3 @@ const {valid, meta} = await jsvcn.verify(FILE, progress => {
 });
 
 ``` 
-
-
-## License
-
-// TODO

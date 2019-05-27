@@ -38,20 +38,19 @@
   "homepage": "https://github.com/vchain/jsvcn#readme",
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.1",
     "babel-loader": "^8.0.5",
     "jest": "^24.5.0",
     "jest-fetch-mock": "^2.1.2",
     "rollup": "^1.7.4",
-    "rollup-plugin-babel": "^4.3.2"
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-json": "^4.0.0"
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "env-universal": "^0.4.0",
     "filereader": "^0.10.3",
     "js-sha256": "^0.9.0",
-    "rollup-plugin-json": "^4.0.0",
     "web3": "^1.0.0-beta.46"
   }
 }
