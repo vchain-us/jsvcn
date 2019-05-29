@@ -1,4 +1,4 @@
-const level = (value) => {
+const assetLevel = (value) => {
 	switch (value) {
 		case 0:
 			return "UNKNOWN";
@@ -19,7 +19,7 @@ const level = (value) => {
 	}
 }
 
-const status = (value) => {
+const assetStatus = (value) => {
 	switch (value) {
 		case 0:
 			return "TRUSTED";
@@ -35,6 +35,6 @@ const status = (value) => {
 }
 
 export {
-	status,
-	level
+	assetStatus,
+	assetLevel
 }
