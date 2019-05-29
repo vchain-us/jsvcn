@@ -19,7 +19,7 @@ class Jsvcn {
 	}
 
 
-	verify = (input, onProgress) => {
+	verify(input, onProgress) {
 		const { blockchainUrl, assetUrl } = this
 		const verify = new Verify({ blockchainUrl, assetUrl })
 
