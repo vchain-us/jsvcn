@@ -2,20 +2,20 @@
 import Verify from './lib/verify';
 import browserFileReader from './utils/fileReader'
 // import serverFileReader from './utils/serverFileReader'
-import { ASSET_URL, BLOCKCHAIN_URL } from './config'
+import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ADDRESS } from './config'
 
 class Jsvcn {
 
 	constructor(options) {
-		const confg = options || {}
+		const config = options || {}
 
 		// endpoints		
-		this.assetUrl = confg.assetUrl || ASSET_URL;
-		this.blockchainUrl = confg.blockchainUrl || BLOCKCHAIN_URL;
-
+		this.assetUrl = config.assetUrl || ASSET_URL;
+		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
+		this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ADDRESS;
 		// filereader
 		// todo node.js env  fileReader = (env.is.client) ? browserFileReader : serverFileReader
-		this.fileReader = confg.fileReader || browserFileReader
+		this.fileReader = config.fileReader || browserFileReader
 	}
 
 
