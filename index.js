@@ -20,7 +20,7 @@ class Jsvcn {
 
 
 	verify(input, onProgress) {
-		const { blockchainUrl, assetUrl } = this
+		const { blockchainUrl, blockchainAddress, assetUrl } = this
 		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl })
 
 		if (typeof input === "string") {
