@@ -32,8 +32,8 @@ const hashFile = (file, hashAlgorithms, onProgress) => {
         },
         onChunk: ({ offset, fileSize, data }) => {
           if (algos.includes("sha256")) hash.sha256.update(data);
-          // if (algos.includes("sha1")) hash.sha1.update(data);
-          // if (algos.includes("md5")) hash.md5.update(data);
+          if (algos.includes("sha1")) hash.sha1.update(data);
+          if (algos.includes("md5")) hash.md5.update(data);
 
           if (onProgress) {
             const percent = progress(offset, fileSize)

@@ -2,8 +2,8 @@ import hashFile from "../utils/hashFile"
 
 const TEST_FILE = new File([new Blob(['foo', 'bar'])], "test.png", { type: "image/png" });
 const HASH_SHA256 = "c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2";
-const HASH_MD5 = "d41d8cd98f00b204e9800998ecf8427e";
-const HASH_SHA1 = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+const HASH_MD5 = "3858f62230ac3c915f300c664312c63f";
+const HASH_SHA1 = "8843d7f92416211de9ebb963ff4ce28125932878";
 describe('hashFile', () => {
 
 	it('should throw an error when first argument is not a file', () => {
