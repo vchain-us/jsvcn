@@ -21,21 +21,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://vchain@github.com/vchain/jsvcn.git"
+    "url": "git+https://github.com/vchain-us/jsvcn.git"
   },
   "keywords": [
     "vcn",
     "codenotary",
     "vchain",
     "js",
-    "javascript"
+    "javascript",
+    "blockchain"
   ],
   "author": "vChain Inc.",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vchain/jsvcn"
+    "url": "https://github.com/vchain-us/jsvcn"
   },
-  "homepage": "https://github.com/vchain/jsvcn#readme",
+  "homepage": "https://github.com/vchain-us/jsvcn#readme",
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/plugin-transform-runtime": "^7.4.4",

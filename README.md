@@ -10,15 +10,10 @@ platform.
 ## Features: 
 
 - verify digital assets via the Codenotary Blockchain
-- query asset metadata from Codenotary Platform 
+- query asset metadata from Codenotary  
 
-Asset verification happens on 100% client-side in memory (in the browser or when you use it in node.js on the client server).
-The library uses superfast chunk-based file hashing to keep memory usage low. 
-Please note: The asset you verify never leaves your environment, this library sends only the hash of it to CodeNotary. 
 
 ## Install: 
-
-Use npm or yarn to add it to your ES6 JavaScript project: 
 
 ``` 
 npm install jsvcn
@@ -45,7 +40,7 @@ Verify command always returns with a Promise. If you prefer you can use async-aw
 ``` javascript
 
 async function myMethod(){
- const {valid, meta} = await jsvcn.verify(FILE);
+ const {status} = await jsvcn.verify(FILE);
  ...
 }
 
@@ -54,15 +49,15 @@ async function myMethod(){
 It is also possible to verify the sha256 hash of an asset directly: 
 
 ``` javascript
-const HASH = "32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70";
-const {valid, meta} = await jsvcn.verify(HASH);
+
+const {status} = await jsvcn.verify("32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70");
 
 ``` 
 
-When you verify large files (>50 MB) we provide a progress callback as a second parameter which periodically returns with the percent of the hashing progress: 
+When you verify large files (>50 MB) we provide a progress callback as a second parameter which periodically returns with the percent value of the hashing progress: 
 
 ``` javascript
-const {valid, meta} = await jsvcn.verify(FILE, progress => {
+const {status} = await jsvcn.verify(FILE, (progress) => {
  ...
 });
 
