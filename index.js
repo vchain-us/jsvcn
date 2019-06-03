@@ -16,12 +16,13 @@ class Jsvcn {
 		// filereader
 		// todo node.js env  fileReader = (env.is.client) ? browserFileReader : serverFileReader
 		this.fileReader = config.fileReader || browserFileReader
+		this.checksums = config.checksums || []
 	}
 
 
 	verify(input, onProgress) {
-		const { blockchainUrl, blockchainAddress, assetUrl } = this
-		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl })
+		const { blockchainUrl, blockchainAddress, assetUrl, checksums } = this
+		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, checksums })
 
 		if (typeof input === "string") {
 
