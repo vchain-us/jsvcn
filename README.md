@@ -46,7 +46,7 @@ async function myMethod(){
 
 ```
 
-It is also possible to verify the sha256 hash of an asset directly: 
+It is also possible to verify directly the SHA256 hash of an asset: 
 
 ``` javascript
 
@@ -54,7 +54,7 @@ jsvcn.verify("32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70")
 
 ``` 
 
-We provide a progress callback as a second parameter which periodically returns with the percent value of the hashing progress. This is really hand when you verify large files and want to display the progress..
+The verify command provides a progress callback as second parameter which periodically returns with the percent value of the hashing progress. This is really handy when you verify large files and want to display the progress..
 
 ``` javascript
 jsvcn.verify(FILE, (progress) => {
