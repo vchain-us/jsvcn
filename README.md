@@ -29,7 +29,7 @@ import Jsvcn from "jsvcn"
 const FILE = new File(...);
 
 const jsvcn = new Jsvcn();
-jsvcn.verify(FILE).then({valid, meta}){
+jsvcn.verify(FILE).then({status}){
  ...
 })
 
@@ -50,14 +50,14 @@ It is also possible to verify the sha256 hash of an asset directly:
 
 ``` javascript
 
-const {status} = await jsvcn.verify("32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70");
+jsvcn.verify("32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70");
 
 ``` 
 
-When you verify large files (>50 MB) we provide a progress callback as a second parameter which periodically returns with the percent value of the hashing progress: 
+We provide a progress callback as a second parameter which periodically returns with the percent value of the hashing progress. This is really hand when you verify large files and want to display the progress..
 
 ``` javascript
-const {status} = await jsvcn.verify(FILE, (progress) => {
+jsvcn.verify(FILE, (progress) => {
  ...
 });
 
