@@ -1,7 +1,8 @@
 
 const mockHash = jest.fn()
 const mockFile = jest.fn()
-jest.mock('../lib/verify', () => () => ({
+
+jest.mock('../modules/verify', () => () => ({
 	hash: mockHash,
 	file: mockFile,
 }));

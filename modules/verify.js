@@ -1,5 +1,5 @@
-import CodenotaryFoundationClient from "./codenotaryFoundation";
-import CodenotaryBlockchainClient from "./codenotaryBlockchain";
+import CodenotaryFoundationClient from "../lib/codenotaryFoundation";
+import CodenotaryBlockchainClient from "../lib/codenotaryBlockchain";
 
 import hashFile from "../utils/hashFile"
 import hashMeta from "../utils/hashMeta"
@@ -10,15 +10,17 @@ class Verify {
 	constructor(options) {
 		const { blockchainUrl, blockchainAddress, assetUrl, checksums } = options
 
-		if (!blockchainUrl || !blockchainAddress) throw Error("Missing blockchain configuration")
-		if (!assetUrl) throw Error("Missing asset configuration")
+		if (!blockchainUrl) throw Error("Blockchain url is missing from configuration")
+		if (!blockchainAddress) throw Error("Blockchain address is missing from configuration")
+		if (!assetUrl) throw Error("Asset url is missing from configuration")
 
 		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainAddress);
 		this.assetClient = new CodenotaryFoundationClient(assetUrl);
-		this.algorithms = [...checksums, "sha256"]
+		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
 	}
 
 	async hash(hash) {
+		if (!hash || typeof hash !== 'string') throw Error("Hash should be a valid string")
 
 		const { valid, meta } = await this.blockchainClient.verify(hash)
 
@@ -34,6 +36,8 @@ class Verify {
 	}
 
 	async file(file, onProgress) {
+
+		if (!file || !(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
 
 		const hashes = await hashFile(file, this.algorithms, onProgress)
 
