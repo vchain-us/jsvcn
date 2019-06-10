@@ -1,5 +1,6 @@
 const assetLevel = (value) => {
-	switch (value) {
+	const id = parseInt(value)
+	switch (id) {
 		case 0:
 			return "UNKNOWN";
 		case 1:
@@ -20,7 +21,8 @@ const assetLevel = (value) => {
 }
 
 const assetStatus = (value) => {
-	switch (value) {
+	const id = parseInt(value)
+	switch (id) {
 		case 0:
 			return "TRUSTED";
 		case 1:

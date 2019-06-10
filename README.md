@@ -30,7 +30,7 @@ import Jsvcn from "jsvcn"
 const FILE = new File(...);
 
 const jsvcn = new Jsvcn();
-jsvcn.verify(FILE).then({status}){
+jsvcn.verify(FILE).then(({ status }) => {
  ...
 })
 

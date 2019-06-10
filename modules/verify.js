@@ -30,7 +30,7 @@ class Verify {
 			const { owner, level, status, timestamp } = meta
 			const metaHash = hashMeta(owner, level, status, timestamp);
 			asset = await this.asset(hash, metaHash)
-			return { hash, level: assetLevel(level), status: assetStatus(status), ...asset }
+			return {...asset, hash, level: assetLevel(level), status: assetStatus(status) }
 		}
 		return { hash, status: assetStatus() }
 	}
