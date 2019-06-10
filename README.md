@@ -12,6 +12,11 @@ platform.
 - verify digital assets via the Codenotary Blockchain
 - query asset metadata from Codenotary  
 
+## Demo
+
+- [Vue Demo App](https://vchain-us.github.io/jsvcn/) ([source](https://github.com/vchain-us/jsvcn/tree/master/example))
+- [Codenotary Verify App](https://verify.codenotary.io/)
+- [Codenotary Chrome Extension](https://chrome.google.com/webstore/detail/vchain-codenotary-downloa/mnloemedehacppeggbipipjlphdjpjcb)
 
 ## Install: 
 
@@ -21,7 +26,7 @@ npm install jsvcn
 ```
 
 
-## Example
+## Examples
 
 ```javascript
 
