@@ -14,9 +14,9 @@ platform.
 
 ## Demo
 
-- [Vue Demo App](https://vchain-us.github.io/jsvcn/) ([source](https://github.com/vchain-us/jsvcn/tree/master/example))
-- [Codenotary Verify App](https://verify.codenotary.io/)
-- [Codenotary Chrome Extension](https://chrome.google.com/webstore/detail/vchain-codenotary-downloa/mnloemedehacppeggbipipjlphdjpjcb)
+- [Demo App in Vue](https://vchain-us.github.io/jsvcn/) ([source](https://github.com/vchain-us/jsvcn/tree/master/example))
+- [CodeNotary Verify App](https://verify.codenotary.io/)
+- [CodeNotary Chrome Extension](https://chrome.google.com/webstore/detail/vchain-codenotary-downloa/mnloemedehacppeggbipipjlphdjpjcb)
 
 ## Install: 
 
@@ -67,3 +67,7 @@ The verify command provides a progress callback as second parameter which period
 jsvcn.verify(FILE, (progress) => console.log(progress + '%'));
 
 ``` 
+
+## License
+
+This software is released under GPL3.
