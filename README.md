@@ -68,7 +68,7 @@ jsvcn.verify(FILE, (progress) => console.log(progress + '%'));
 
 ``` 
 
-CodeNotary.io uses SHA256 algorithm to calculate and compare file hashes, but this package can also provide SHA1, MD5 checksums of the verified file. You can add "checksums" attribute to the config object with an array of checksums you want to get back from the verify method.
+CodeNotary.io uses SHA256 algorithm to calculate and compare file hashes, but this package can also provide SHA1, SHA512, MD5 checksums of the verified file. You can add "checksums" attribute to the config object with an array of checksums you want to get back from the verify method.
 
 ``` javascript
 const jsvcn = new Jsvcn({checksums: ["sha1", "md5"]});
