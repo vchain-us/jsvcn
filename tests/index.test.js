@@ -1,14 +1,18 @@
 
 const mockHash = jest.fn()
 const mockFile = jest.fn()
+const mockUrl = jest.fn()
 
 jest.mock('../modules/verify', () => () => ({
 	hash: mockHash,
 	file: mockFile,
+	url: mockUrl,
 }));
 
 import Jsvcn from '../index'
 import { ASSET_URL, BLOCKCHAIN_URL } from '../config'
+
+const TEST_PATH = "file://whatever.jpg"
 
 const TEST_URL = "http://test.local"
 
@@ -32,12 +36,7 @@ describe('jsvcn', () => {
 			expect(jsvcn.blockchainUrl).toEqual(BLOCKCHAIN_URL);
 
 		});
-
-		it('should use some kind of file reader by default', () => {
-
-			expect(jsvcn.fileReader).toBeInstanceOf(Function);
-
-		});
+		
 	});
 
 	describe('constructor', () => {
@@ -56,23 +55,17 @@ describe('jsvcn', () => {
 
 		});
 
-
-		it('should accept custom filereader', () => {
-
-			const customReader = (e) => console.log(e)
-
-			const jsvcn = new Jsvcn({ fileReader: customReader });
-			expect(jsvcn.fileReader).toEqual(customReader);
-
-		});
-
-
 	});
 
 
 	describe('jsvcn veriy method', () => {
 
 		const jsvcn = new Jsvcn();
+
+		it('should call url verify when input is a local path starts with file://', () => {
+			jsvcn.verify(TEST_PATH)
+			expect(mockUrl).toHaveBeenCalled();
+		});
 
 		it('should call hash verify when input is string', () => {
 			jsvcn.verify("hajshdkhashdk23z7682368")
@@ -86,7 +79,7 @@ describe('jsvcn', () => {
 
 		it('should throw error when first argument is not string or file', () => {
 
-			expect(() => { jsvcn.verify(1267162) }).toThrowError("Invalid frist argument, please provide a hash or a File.")
+			expect(() => { jsvcn.verify(1267162) }).toThrowError("Invalid frist argument, please provide a hash OR file OR local file url")
 
 		});
 

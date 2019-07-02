@@ -5,11 +5,12 @@ const HASH_SHA256 = "c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef
 const HASH_SHA512 = "0a50261ebd1a390fed2bf326f2673c145582a6342d523204973d0219337f81616a8069b012587cf5635f6925f1b56c360230c19b273500ee013e030601bf2425";
 const HASH_MD5 = "3858f62230ac3c915f300c664312c63f";
 const HASH_SHA1 = "8843d7f92416211de9ebb963ff4ce28125932878";
+
 describe('hashFile', () => {
 
-	it('should throw an error when first argument is not a file', () => {
+	it('should throw an error when first argument is not a file or file path', () => {
 
-		expect(() => { hashFile("e") }).toThrowError("Invalid frist argument, provide a file.")
+		expect(() => { hashFile("e") }).toThrowError("Invalid frist argument, provide a file or a full local path.")
 
 	});
 

@@ -4,6 +4,9 @@ import sha512 from "js-sha512"
 import sha1 from "js-sha1"
 import md5 from "js-md5"
 import fileReader from "./fileReader";
+import urlReader from "./urlReader";
+import { isValidLocalPath } from './misc'
+
 import { CHUNK_SIZE } from "../config"
 
 const progress = (offset, size) => Math.round((offset / size) * 100)
@@ -19,11 +22,18 @@ const hashFile = (file, hashAlgorithms, onProgress) => {
     sha512: algos.includes("sha512") ? sha512.create() : undefined
   }
 
-  if (!(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
+  let reader = null;
+  if (file instanceof File) {
+    reader = fileReader
+  } else if (isValidLocalPath(file)) {
+    reader = urlReader
+  } else {
+    throw Error("Invalid frist argument, provide a file or a full local path.");
+  }
 
   return new Promise(
     (resolve, reject) => {
-      fileReader(file, CHUNK_SIZE, {
+      reader(file, CHUNK_SIZE, {
         onSuccess: () => {
           const hex = {
             sha256: algos.includes("sha256") ? hash.sha256.hex() : undefined,

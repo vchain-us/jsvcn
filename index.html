@@ -1,0 +1,43 @@
+<html>
+
+<head>
+	<script>
+		const urlReader = (path, chunkSize, options) => {
+
+			const {
+				onSuccess,
+				onError,
+				onChunk
+			} = options || {}
+			if (!chunkSize) throw Error("Missing second argument: chunk size");
+
+			readChunk(path, 0, chunkSize, onSuccess, onError, onChunk);
+		}
+
+		function readChunk(file, chunkSize, pos, fileLen, onSuccess, onError, onChunk) {
+			if (pos > fileLen) {
+				console.log(pos)
+				onSuccess()
+				return;
+			}
+			var chunkEnd = pos + chunkSize < fileLen ? pos + chunkSize : fileLen;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 206) {
+					onChunk(xhr.response.length);
+					//request next chunk
+					fileLen = parseInt(xhr.getResponseHeader("Content-Range").split("/")[1]);
+					readChunk(file, chunkSize, pos + chunkSize + 1, fileLen, onSuccess, onError, onChunk);
+				}
+			};
+			xhr.open("get", file, true);
+			xhr.onerror = (err) => onError(err)
+			xhr.setRequestHeader("Range", "bytes=" + pos + "-" + chunkEnd);
+			xhr.send();
+		}
+
+		urlReader("http://localhost:8082/p.msi", 100)
+	</script>
+</head>
+
+</html>

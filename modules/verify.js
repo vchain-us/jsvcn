@@ -4,6 +4,7 @@ import CodenotaryBlockchainClient from "../lib/codenotaryBlockchain";
 import hashFile from "../utils/hashFile"
 import hashMeta from "../utils/hashMeta"
 import { assetLevel, assetStatus } from "../utils/enums"
+import { isValidLocalPath } from "../utils/misc";
 
 class Verify {
 
@@ -30,7 +31,7 @@ class Verify {
 			const { owner, level, status, timestamp } = meta
 			const metaHash = hashMeta(owner, level, status, timestamp);
 			asset = await this.asset(hash, metaHash)
-			return {...asset, hash, level: assetLevel(level), status: assetStatus(status) }
+			return { ...asset, hash, level: assetLevel(level), status: assetStatus(status) }
 		}
 		return { hash, status: assetStatus() }
 	}
@@ -40,6 +41,18 @@ class Verify {
 		if (!file || !(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
 
 		const hashes = await hashFile(file, this.algorithms, onProgress)
+
+		const asset = await this.hash(hashes.sha256)
+
+		return {
+			checksums: hashes, ...asset,
+		}
+	}
+
+	async url(path, onProgress) {
+		if (!path || !isValidLocalPath(path)) throw Error("Invalid frist argument, provide a local file path starts with file://");
+
+		const hashes = await hashFile(path, this.algorithms, onProgress)
 
 		const asset = await this.hash(hashes.sha256)
 

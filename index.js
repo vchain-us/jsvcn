@@ -1,8 +1,7 @@
 
 import Verify from './modules/verify';
-import browserFileReader from './utils/fileReader'
-// import serverFileReader from './utils/serverFileReader'
 import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ADDRESS } from './config'
+import { isValidLocalPath } from './utils/misc'
 
 class Jsvcn {
 
@@ -13,9 +12,7 @@ class Jsvcn {
 		this.assetUrl = config.assetUrl || ASSET_URL;
 		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
 		this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ADDRESS;
-		// filereader
-		// todo node.js env  fileReader = (env.is.client) ? browserFileReader : serverFileReader
-		this.fileReader = config.fileReader || browserFileReader
+
 		this.checksums = config.checksums || []
 	}
 
@@ -24,19 +21,23 @@ class Jsvcn {
 		const { blockchainUrl, blockchainAddress, assetUrl, checksums } = this
 		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, checksums })
 
-		if (typeof input === "string") {
+		if (input instanceof File) {
+			return verify.file(input, onProgress)
+
+		} else if (isValidLocalPath(input)) {
+
+			return verify.url(input)
+
+		} else if (typeof input === "string") {
 
 			return verify.hash(input)
 
-		} else if (input instanceof File) {
-
-			return verify.file(input, onProgress)
-
 		} else {
 
-			throw new Error("Invalid frist argument, please provide a hash or a File.")
+			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
 
 		}
+
 	}
 }
 
