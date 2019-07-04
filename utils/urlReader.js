@@ -1,45 +1,49 @@
-const urlReader = (path, chunkSize, options) => {
+let fileSize = 0;
 
+const urlReader = (path, chunkSize, options) => {
 	const { onSuccess, onError, onChunk } = options || {}
 	if (!chunkSize) throw Error("Missing second argument: chunk size");
-
-	readChunk(path, chunkSize, 0, chunkSize, onSuccess, onError, onChunk);
+	readChunk(path, chunkSize, 0, chunkSize, 0, onSuccess, onError, onChunk);
 }
 
-function readChunk(file, chunkSize, pos, fileLen, onSuccess, onError, onChunk) {
-	if (pos > fileLen) {
-		if (onSuccess) onSuccess({
-			data: null,
-			offset: pos,
-			fileSize: fileLen,
-			chunkSize: chunkSize,
-		})
-		console.log("success", fileLen)
-		return;
-	}
-	const chunkEnd = pos + chunkSize < fileLen ? pos + chunkSize : fileLen;
+function readChunk(path, chunkSize, offset, end, fileSize, onSuccess, onError, onChunk) {
+
 	const xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 206) {
-			if(onChunk) onChunk({
-				data: xhr.result,
-				offset: pos,
-				fileSize: fileLen,
-				chunkSize: chunkSize
-			});
-			console.log("chunk",pos, fileLen, xhr.result)
-			//request next chunk
-			fileLen = parseInt(xhr.getResponseHeader("Content-Range").split("/")[1]);
-			readChunk(file, chunkSize, pos + chunkSize + 1, fileLen, onSuccess, onError, onChunk);
+	xhr.responseType = "arraybuffer";
+
+	xhr.onload = () => {
+		const data = xhr.response.slice(1);
+		const dataLength = data.byteLength
+		fileSize = fileSize + dataLength;
+		const nextEnd = end + chunkSize
+		if (onChunk) onChunk({
+			data,
+			offset,
+			fileSize,
+			chunkSize
+		});
+
+		if (end + dataLength < nextEnd) {
+			if (onSuccess) onSuccess({
+				data: null,
+				offset,
+				fileSize,
+				chunkSize: dataLength
+			})
+			return; // exit loop
 		}
+		readChunk(path, chunkSize, end, nextEnd, fileSize, onSuccess, onError, onChunk);
+
 	};
-	xhr.open("get", file, true);
+
+	xhr.open("get", path, true);
 	xhr.onerror = (err) => {
 		if (onError) onError(err)
-		console.log(err)
 	}
-	xhr.setRequestHeader("Range", "bytes=" + pos + "-" + chunkEnd);
+	const chunkEnd = offset + chunkSize < end ? offset + chunkSize : end;
+
+	xhr.setRequestHeader("Range", "bytes=" + offset + "-" + chunkEnd);
 	xhr.send();
 }
 
-export default urlReader;
+export default urlReader
