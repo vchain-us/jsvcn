@@ -15,7 +15,7 @@ function readChunk(path, chunkSize, offset, end, fileSize, onSuccess, onError, o
 		fileSize = fileSize + dataLength;
 		const nextEnd = end + chunkSize
 		if (onChunk) onChunk({
-			data: data.Uint8Array,
+			data,
 			offset,
 			fileSize,
 			chunkSize

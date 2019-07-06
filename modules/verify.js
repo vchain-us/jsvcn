@@ -26,15 +26,25 @@ class Verify {
 
 		const { valid, meta } = await this.blockchainClient.verify(hash)
 
+		const { owner, level, status, timestamp } = meta
+
+		const response = {
+			hash,
+			level: assetLevel(level),
+			status: assetStatus(status),
+			timestamp,
+			owner
+		}
+
 		let asset = {}
 
 		if (valid && !this.validationOnly) {
-			const { owner, level, status, timestamp } = meta
 			const metaHash = hashMeta(owner, level, status, timestamp);
 			asset = await this.asset(hash, metaHash)
-			return { ...asset, hash, level: assetLevel(level), status: assetStatus(status) }
+			return { ...asset, ...response }
 		}
-		return { hash, status: assetStatus() }
+
+		return response
 	}
 
 	async file(file, onProgress) {

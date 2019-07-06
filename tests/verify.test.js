@@ -89,18 +89,37 @@ describe('verify', () => {
 
 			const response = await verify.hash(HASH)
 			expect(response).toHaveProperty("status");
+			expect(response).toHaveProperty("level");
 			expect(response).toHaveProperty("hash");
-
+			expect(response).toHaveProperty("owner");
+			expect(response).toHaveProperty("timestamp");
 		});
+
+
+		it('should return with blockchain values (status and level) and not from codenotary asset response', async () => {
+			const verify = new Verify(BASE_CONFIG);
+
+			mockVerify.mockReturnValue({ valid: true, meta: { status: 1, level: 1 } });
+			verify.asset = () => ({ status: 2, level: 2 })
+
+			const response = await verify.hash(HASH)
+			expect(response.status).toBe("UNTRUSTED");
+			expect(response.level).toBe("EMAIL_VERIFIED");
+		});
+
 
 		it('should return with the hash and status when the verified asset is on the blockchain but requested with validation only', async () => {
 			const verify = new Verify(VALIDATIONONLY_CONFIG);
 
 			mockVerify.mockReturnValue({ valid: true, meta: {} });
+			verify.asset = () => ({ arg: "" })
 
 			const response = await verify.hash(HASH)
 			expect(response).toHaveProperty("status");
+			expect(response).toHaveProperty("level");
 			expect(response).toHaveProperty("hash");
+			expect(response).toHaveProperty("owner");
+			expect(response).toHaveProperty("timestamp");
 
 		});
 
