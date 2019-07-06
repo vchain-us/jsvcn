@@ -9,7 +9,7 @@ import { isValidLocalPath } from "../utils/misc";
 class Verify {
 
 	constructor(options) {
-		const { blockchainUrl, blockchainAddress, assetUrl, checksums } = options
+		const { blockchainUrl, blockchainAddress, assetUrl, validationOnly, checksums } = options
 
 		if (!blockchainUrl) throw Error("Blockchain url is missing from configuration")
 		if (!blockchainAddress) throw Error("Blockchain address is missing from configuration")
@@ -18,6 +18,7 @@ class Verify {
 		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainAddress);
 		this.assetClient = new CodenotaryFoundationClient(assetUrl);
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
+		this.validationOnly = !!validationOnly
 	}
 
 	async hash(hash) {
@@ -27,7 +28,7 @@ class Verify {
 
 		let asset = {}
 
-		if (valid) {
+		if (valid && !this.validationOnly) {
 			const { owner, level, status, timestamp } = meta
 			const metaHash = hashMeta(owner, level, status, timestamp);
 			asset = await this.asset(hash, metaHash)

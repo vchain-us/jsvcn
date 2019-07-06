@@ -17,6 +17,9 @@ const TEST_URL = "http://test.local"
 
 const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123" }
 
+const VALIDATIONONLY_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123", validationOnly: true }
+
+
 const TEST_FILE = new File(["foo"], "foo.txt", {
 	type: "text/plain",
 });
@@ -83,6 +86,17 @@ describe('verify', () => {
 			const verify = new Verify(BASE_CONFIG);
 
 			mockVerify.mockReturnValue({ valid: false, meta: {} });
+
+			const response = await verify.hash(HASH)
+			expect(response).toHaveProperty("status");
+			expect(response).toHaveProperty("hash");
+
+		});
+
+		it('should return with the hash and status when the verified asset is on the blockchain but requested with validation only', async () => {
+			const verify = new Verify(VALIDATIONONLY_CONFIG);
+
+			mockVerify.mockReturnValue({ valid: true, meta: {} });
 
 			const response = await verify.hash(HASH)
 			expect(response).toHaveProperty("status");

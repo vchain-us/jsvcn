@@ -12,14 +12,14 @@ class Jsvcn {
 		this.assetUrl = config.assetUrl || ASSET_URL;
 		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
 		this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ADDRESS;
-
+		this.validationOnly = !! config.validationOnly
 		this.checksums = config.checksums || []
 	}
 
 
 	verify(input, onProgress) {
-		const { blockchainUrl, blockchainAddress, assetUrl, checksums } = this
-		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, checksums })
+		const { blockchainUrl, blockchainAddress, assetUrl, checksums, validationOnly } = this
+		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, validationOnly, checksums })
 
 		if (input instanceof File) {
 			return verify.file(input, onProgress)

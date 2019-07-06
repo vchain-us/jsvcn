@@ -36,6 +36,12 @@ describe('jsvcn', () => {
 			expect(jsvcn.blockchainUrl).toEqual(BLOCKCHAIN_URL);
 
 		});
+
+		it('should be validationOnly false', () => {
+
+			expect(jsvcn.validationOnly).toBeFalsy();
+
+		});
 		
 	});
 
@@ -54,6 +60,14 @@ describe('jsvcn', () => {
 			expect(jsvcn.blockchainUrl).toEqual(TEST_URL);
 
 		});
+
+		it('should set validationOnly to false', () => {
+
+			const jsvcn = new Jsvcn({ validationOnly: true });
+			expect(jsvcn.validationOnly).toBeTruthy();
+
+		});
+
 
 	});
 
