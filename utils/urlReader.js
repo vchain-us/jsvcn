@@ -1,5 +1,3 @@
-let fileSize = 0;
-
 const urlReader = (path, chunkSize, options) => {
 	const { onSuccess, onError, onChunk } = options || {}
 	if (!chunkSize) throw Error("Missing second argument: chunk size");
@@ -17,7 +15,7 @@ function readChunk(path, chunkSize, offset, end, fileSize, onSuccess, onError, o
 		fileSize = fileSize + dataLength;
 		const nextEnd = end + chunkSize
 		if (onChunk) onChunk({
-			data,
+			data: data.Uint8Array,
 			offset,
 			fileSize,
 			chunkSize
