@@ -1,46 +1,49 @@
-const urlReader = (path, chunkSize, options) => {
-	const { onSuccess, onError, onChunk } = options || {}
+const echoCb = (data) => console.log(data)
+
+const urlReader = (path, chunkSize, config) => {
+	const options = config || {}
+	const onChunk = options.onChunk || echoCb
+	const onSuccess = options.onSuccess || echoCb
+	const onError = options.onError || echoCb
+
 	if (!chunkSize) throw Error("Missing second argument: chunk size");
-	readChunk(path, chunkSize, 0, chunkSize, 0, onSuccess, onError, onChunk);
+	readChunk(path, chunkSize, 0, chunkSize - 1, 0, onSuccess, onError, onChunk);
 }
 
-function readChunk(path, chunkSize, offset, end, fileSize, onSuccess, onError, onChunk) {
+const readChunk = (path, chunkSize, offset, end, fileSize, onSuccess, onError, onChunk) => {
 
 	const xhr = new XMLHttpRequest();
 	xhr.responseType = "arraybuffer";
 
-	xhr.onload = () => {
-		const data = xhr.response.slice(1);
+	xhr.onload = function () {
+		const data = xhr.response
 		const dataLength = data.byteLength
 		fileSize = fileSize + dataLength;
-		const nextEnd = end + chunkSize
-		if (onChunk) onChunk({
+
+		onChunk({
 			data,
 			offset,
 			fileSize,
-			chunkSize
+			chunkSize: dataLength
 		});
 
-		if (end + dataLength < nextEnd) {
-			if (onSuccess) onSuccess({
+		if (end + dataLength < end + chunkSize ) {
+			onSuccess({
 				data: null,
-				offset,
-				fileSize,
-				chunkSize: dataLength
+				fileSize
 			})
 			return; // exit loop
 		}
-		readChunk(path, chunkSize, end, nextEnd, fileSize, onSuccess, onError, onChunk);
 
+		readChunk(path, chunkSize, end + 1, end + chunkSize, fileSize, onSuccess, onError, onChunk);
 	};
 
 	xhr.open("get", path, true);
 	xhr.onerror = (err) => {
 		if (onError) onError(err)
 	}
-	const chunkEnd = offset + chunkSize < end ? offset + chunkSize : end;
 
-	xhr.setRequestHeader("Range", "bytes=" + offset + "-" + chunkEnd);
+	xhr.setRequestHeader("Range", "bytes=" + offset + "-" + end);
 	xhr.send();
 }
 
