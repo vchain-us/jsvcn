@@ -38,15 +38,15 @@
   },
   "homepage": "https://github.com/vchain-us/jsvcn#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.1",
-    "@babel/runtime": "^7.4.5",
-    "babel-loader": "^8.0.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "babel-loader": "^8.0.6",
     "jest": "^24.5.0",
     "jest-fetch-mock": "^2.1.2",
-    "rollup": "^1.7.4",
-    "rollup-plugin-babel": "^4.3.2",
+    "rollup": "^1.17.0",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-json": "^4.0.0"
   },
   "dependencies": {
