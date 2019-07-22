@@ -51,6 +51,7 @@
     "rollup-plugin-json": "^4.0.0"
   },
   "dependencies": {
+    "ethers": "^4.0.33",
     "filereader": "^0.10.3",
     "js-md5": "^0.7.3",
     "js-sha1": "^0.6.0",
