@@ -1,4 +1,4 @@
-//import FileReader from 'filereader'
+import FileReader from 'filereader'
 
 const fr = new FileReader();
 

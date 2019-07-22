@@ -21,10 +21,7 @@ class Jsvcn {
 		const { blockchainUrl, blockchainAddress, assetUrl, checksums, validationOnly } = this
 		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, validationOnly, checksums })
 
-		if (input instanceof File) {
-			return verify.file(input, onProgress)
-
-		} else if (isValidLocalPath(input)) {
+		if (isValidLocalPath(input)) {
 
 			return verify.url(input)
 

@@ -2,11 +2,11 @@ import babel from 'rollup-plugin-babel';
 import json from 'rollup-plugin-json';
 
 export default {
-	input: './index.js',
+	input: './cli.js',
 	output: {
-		file: './dist/jsvcn.js',
+		file: './dist/cli.js',
 		name: 'jsvcn',
-		format: 'iife',
+		format: 'umd',
 		compact: true
 	},
 	plugins: [
