@@ -13,6 +13,7 @@ class Verify {
 
 		if (!blockchainUrl) throw Error("Blockchain url is missing from configuration")
 		if (!blockchainAddress) throw Error("Blockchain address is missing from configuration")
+		if (!blockchainContract) throw Error("Blockchain contract is missing from configuration")
 		if (!assetUrl) throw Error("Asset url is missing from configuration")
 
 		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainContract);

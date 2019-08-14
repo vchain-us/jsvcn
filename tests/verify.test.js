@@ -15,9 +15,9 @@ const HASH = "abc"
 
 const TEST_URL = "http://test.local"
 
-const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123" }
+const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123", blockchainContract: {} }
 
-const VALIDATIONONLY_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123", validationOnly: true }
+const VALIDATIONONLY_CONFIG = { ...BASE_CONFIG, validationOnly: true }
 
 
 const TEST_FILE = new File(["foo"], "foo.txt", {
@@ -35,13 +35,19 @@ describe('verify', () => {
 
 		it('should throw error when asset url is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: TEST_URL, blockchainAddress: "123", assetUrl: null }); }).toThrowError("Asset url is missing from configuration")
+			expect(() => { new Verify({ blockchainUrl: TEST_URL, blockchainAddress: "123", blockchainContract: {}, assetUrl: null }); }).toThrowError("Asset url is missing from configuration")
 
 		});
 
 		it('should throw error when blockchain address is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: TEST_URL, assetUrl: TEST_URL }); }).toThrowError("Blockchain address is missing from configuration")
+			expect(() => { new Verify({ blockchainUrl: TEST_URL, blockchainContract: {}, assetUrl: TEST_URL }); }).toThrowError("Blockchain address is missing from configuration")
+
+		});
+
+		it('should throw error when blockchain contract is not present in config', () => {
+
+			expect(() => { new Verify({ blockchainUrl: TEST_URL,  blockchainAddress: "123", assetUrl: TEST_URL }); }).toThrowError("Blockchain contract is missing from configuration")
 
 		});
 
