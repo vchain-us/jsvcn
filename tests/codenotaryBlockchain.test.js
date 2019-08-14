@@ -8,7 +8,7 @@ const VALID = ["0xf5e4f09d16bc21821faf4ddc15bd7c7bb58f137b", "level", "status", 
 const INVALID = ["0x0000000000000000000000000000000000000000", "", "", ""]
 
 describe('blockchain client', () => {
-	const client = new codenotaryBlockchainClient(TEST_URL);
+	const client = new codenotaryBlockchainClient(TEST_URL, {}, "123");
 
 	beforeEach(() => {
 		fetch.resetMocks()

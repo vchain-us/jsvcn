@@ -16,7 +16,7 @@ class Verify {
 		if (!blockchainContract) throw Error("Blockchain contract is missing from configuration")
 		if (!assetUrl) throw Error("Asset url is missing from configuration")
 
-		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainContract);
+		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainContract, blockchainAddress);
 		this.assetClient = new CodenotaryFoundationClient(assetUrl);
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
 		this.validationOnly = !!validationOnly

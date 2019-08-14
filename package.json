@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "test-watch": "jest --watch",
+    "test:watch": "jest --watch",
     "build": "rollup --config rollup.config.js"
   },
   "jest": {
