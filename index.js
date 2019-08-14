@@ -10,25 +10,24 @@ class Jsvcn {
 	constructor(options) {
 		const config = options || {}
 
-		// endpoints		
 		this.assetUrl = config.assetUrl || ASSET_URL;
-		this.validationOnly = !!config.validationOnly
-		this.checksums = config.checksums || []
-		this.against = config.against || "ALL";
 		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
-
-		if (this.against === "ALL") {
-			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ASSET_ADDRESS;
-			this.blockchainContract = config.blockchainContract || AssetsRelay;
-		} else if (this.against === "ORGANIZATION") {
-			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ORG_ADDRESS;
-			this.blockchainContract = config.blockchainContract || OrganisationsRelay;
-		}
+		this.checksums = config.checksums || []
+		this.validationOnly = !!config.validationOnly
 	}
 
 
-	verify(input, onProgress) {
+	verify(input, onProgress, against) {
 		const { blockchainUrl, blockchainAddress, blockchainContract, assetUrl, checksums, validationOnly } = this
+
+		if (against === "ORGANIZATION") {
+			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ORG_ADDRESS;
+			this.blockchainContract = config.blockchainContract || OrganisationsRelay;
+		} else {
+			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ASSET_ADDRESS;
+			this.blockchainContract = config.blockchainContract || AssetsRelay;
+		}
+
 		const verify = new Verify({ blockchainUrl, blockchainAddress, blockchainContract, assetUrl, validationOnly, checksums })
 
 		if (input instanceof File) {
