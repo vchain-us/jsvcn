@@ -1,7 +1,9 @@
 
 import Verify from './modules/verify';
-import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ADDRESS } from './config'
+import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ASSET_ADDRESS, BLOCKCHAIN_ORG_ADDRESS } from './config'
 import { isValidLocalPath } from './utils/misc'
+import AssetsRelay from "./contracts/AssetsRelay.json";
+import OrganisationsRelay from "./contracts/OrganisationsRelay.json";
 
 class Jsvcn {
 
@@ -10,16 +12,24 @@ class Jsvcn {
 
 		// endpoints		
 		this.assetUrl = config.assetUrl || ASSET_URL;
-		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
-		this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ADDRESS;
-		this.validationOnly = !! config.validationOnly
+		this.validationOnly = !!config.validationOnly
 		this.checksums = config.checksums || []
+		this.against = config.against || "ALL";
+		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
+
+		if (this.against === "ALL") {
+			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ASSET_ADDRESS;
+			this.blockchainContract = config.blockchainContract || AssetsRelay;
+		} else if (this.against === "ORGANIZATION") {
+			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ORG_ADDRESS;
+			this.blockchainContract = config.blockchainContract || OrganisationsRelay;
+		}
 	}
 
 
 	verify(input, onProgress) {
-		const { blockchainUrl, blockchainAddress, assetUrl, checksums, validationOnly } = this
-		const verify = new Verify({ blockchainUrl, blockchainAddress, assetUrl, validationOnly, checksums })
+		const { blockchainUrl, blockchainAddress, blockchainContract, assetUrl, checksums, validationOnly } = this
+		const verify = new Verify({ blockchainUrl, blockchainAddress, blockchainContract, assetUrl, validationOnly, checksums })
 
 		if (input instanceof File) {
 			return verify.file(input, onProgress)

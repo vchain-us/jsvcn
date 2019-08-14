@@ -9,13 +9,13 @@ import { isValidLocalPath } from "../utils/misc";
 class Verify {
 
 	constructor(options) {
-		const { blockchainUrl, blockchainAddress, assetUrl, validationOnly, checksums } = options
+		const { blockchainUrl, blockchainAddress, blockchainContract, assetUrl, validationOnly, checksums } = options
 
 		if (!blockchainUrl) throw Error("Blockchain url is missing from configuration")
 		if (!blockchainAddress) throw Error("Blockchain address is missing from configuration")
 		if (!assetUrl) throw Error("Asset url is missing from configuration")
 
-		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainAddress);
+		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainContract);
 		this.assetClient = new CodenotaryFoundationClient(assetUrl);
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
 		this.validationOnly = !!validationOnly
