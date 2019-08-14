@@ -8,25 +8,26 @@ import OrganisationsRelay from "./contracts/OrganisationsRelay.json";
 class Jsvcn {
 
 	constructor(options) {
+
+		this.assetContract = AssetsRelay;
+		this.organizationContract = OrganisationsRelay;
+
 		const config = options || {}
 
 		this.assetUrl = config.assetUrl || ASSET_URL;
 		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
 		this.checksums = config.checksums || []
 		this.validationOnly = !!config.validationOnly
+		this.assetAddress = config.blockchainAssetAddress || BLOCKCHAIN_ASSET_ADDRESS;
+		this.organizationAddress = config.blockchainOrganizationAddress || BLOCKCHAIN_ORG_ADDRESS;
 	}
 
 
 	verify(input, onProgress, against) {
-		const { blockchainUrl, blockchainAddress, blockchainContract, assetUrl, checksums, validationOnly } = this
+		const { blockchainUrl, assetUrl, checksums, validationOnly, assetContract, assetAddress, organizationContract, organizationAddress } = this
 
-		if (against === "ORGANIZATION") {
-			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ORG_ADDRESS;
-			this.blockchainContract = config.blockchainContract || OrganisationsRelay;
-		} else {
-			this.blockchainAddress = config.blockchainAddress || BLOCKCHAIN_ASSET_ADDRESS;
-			this.blockchainContract = config.blockchainContract || AssetsRelay;
-		}
+		const blockchainAddress = (against === "ORGANIZATION") ? organizationAddress : assetAddress;
+		const blockchainContract = (against === "ORGANIZATION") ? organizationContract : assetContract;
 
 		const verify = new Verify({ blockchainUrl, blockchainAddress, blockchainContract, assetUrl, validationOnly, checksums })
 
