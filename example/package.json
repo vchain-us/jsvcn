@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "jsvcn": "^1.0.4",
+    "jsvcn": "git+https://github.com/vchain-us/jsvcn.git",
     "vue": "^2.6.10"
   },
   "devDependencies": {
