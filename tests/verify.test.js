@@ -15,7 +15,7 @@ const HASH = "abc"
 
 const TEST_URL = "http://test.local"
 
-const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAddress: "123", blockchainContract: {} }
+const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAssetAddress: "123", blockchainOrganizationAddress: "123" }
 
 const VALIDATIONONLY_CONFIG = { ...BASE_CONFIG, validationOnly: true }
 
@@ -29,25 +29,25 @@ describe('verify', () => {
 
 		it('should throw error when blockchain url is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: null }); }).toThrowError("Blockchain url is missing from configuration")
+			expect(() => { new Verify({ blockchainUrl: null }); }).toThrowError("blockchainUrl is missing from configuration")
 
 		});
 
 		it('should throw error when asset url is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: TEST_URL, blockchainAddress: "123", blockchainContract: {}, assetUrl: null }); }).toThrowError("Asset url is missing from configuration")
+			expect(() => { new Verify({ ...BASE_CONFIG, assetUrl: null }); }).toThrowError("assetUrl is missing from configuration")
 
 		});
 
 		it('should throw error when blockchain address is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: TEST_URL, blockchainContract: {}, assetUrl: TEST_URL }); }).toThrowError("Blockchain address is missing from configuration")
+			expect(() => { new Verify({ ...BASE_CONFIG, blockchainAssetAddress: null }); }).toThrowError("blockchainAssetAddress is missing from configuration")
 
 		});
 
 		it('should throw error when blockchain contract is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: TEST_URL,  blockchainAddress: "123", assetUrl: TEST_URL }); }).toThrowError("Blockchain contract is missing from configuration")
+			expect(() => { new Verify({ ...BASE_CONFIG, blockchainOrganizationAddress: null }); }).toThrowError("blockchainOrganizationAddress is missing from configuration")
 
 		});
 

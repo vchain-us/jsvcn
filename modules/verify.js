@@ -8,24 +8,25 @@ import { isValidLocalPath } from "../utils/misc";
 
 class Verify {
 
-	constructor(options) {
-		const { blockchainUrl, blockchainAddress, blockchainContract, assetUrl, validationOnly, checksums } = options
+	constructor(options, organization) {
+		const { blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress, assetUrl, validationOnly, checksums } = options
 
-		if (!blockchainUrl) throw Error("Blockchain url is missing from configuration")
-		if (!blockchainAddress) throw Error("Blockchain address is missing from configuration")
-		if (!blockchainContract) throw Error("Blockchain contract is missing from configuration")
-		if (!assetUrl) throw Error("Asset url is missing from configuration")
+		if (!blockchainUrl) throw Error("blockchainUrl is missing from configuration")
+		if (!assetUrl) throw Error("assetUrl is missing from configuration")
+		if (!blockchainAssetAddress) throw Error("blockchainAssetAddress is missing from configuration")
+		if (!blockchainOrganizationAddress) throw Error("blockchainOrganizationAddress is missing from configuration")
 
-		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainContract, blockchainAddress);
+		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress);
 		this.assetClient = new CodenotaryFoundationClient(assetUrl);
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
 		this.validationOnly = !!validationOnly
+		this.organization = organization
 	}
 
 	async hash(hash) {
 		if (!hash || typeof hash !== 'string') throw Error("Hash should be a valid string")
 
-		const { valid, meta } = await this.blockchainClient.verify(hash)
+		const { valid, meta } = (this.organization) ? await this.blockchainClient.verifyAgainstOrganization(hash, this.organization) : await this.blockchainClient.verify(hash)
 
 		const { owner, level, status, timestamp } = meta
 

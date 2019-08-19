@@ -1,4 +1,7 @@
-import codenotaryBlockchainClient from "../lib/codenotaryBlockchain"
+import codenotaryBlockchainClient from "../lib/codenotaryBlockchain";
+const ethers = require('ethers')
+const mocktract = require('mocktract')
+ethers.Contract = mocktract
 
 const TEST_URL = "http://test.local"
 const VALID_RESPONSE = { "jsonrpc": "2.0", "result": "0x000000000000000000000000f5e4f09d16bc21821faf4ddc15bd7c7bb58f137b00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005ca376f7", "id": 2 }
