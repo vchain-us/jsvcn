@@ -46,11 +46,13 @@
     "jest": "^24.5.0",
     "jest-fetch-mock": "^2.1.2",
     "lodash": "^4.17.15",
+    "mocktract": "github:matryx/mocktract-ethers.js",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-json": "^4.0.0"
   },
   "dependencies": {
+    "ethers": "^4.0.33",
     "filereader": "^0.10.3",
     "js-md5": "^0.7.3",
     "js-sha1": "^0.6.0",
