@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Jsvcn from "jsvcn";
+import Jsvcn from "../../../index";
 
 export default {
   props: {
