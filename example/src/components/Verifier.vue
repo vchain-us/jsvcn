@@ -2,6 +2,12 @@
   <div>
     <h1>Jsvcn Demo</h1>
 
+    <p>Environment:</p>
+    <label for="checkbox">
+      Staging:
+      <input type="checkbox" id="checkbox" v-model="staging" />
+    </label>
+    <br />
     <fieldset>
       <legend>Verify a file</legend>
       <input type="file" id="file" name="file" @change="onFileChange" />
@@ -14,11 +20,11 @@
 
     <h1>Results</h1>
 
-    <div>Progress: {{progress}}</div>
-    <div>Org. Progress: {{orgProgress}}</div>
+    <div v-if="progress">Progress: {{progress}}</div>
+    <div v-if="orgProgress">Org. Progress: {{orgProgress}}</div>
 
     <fieldset v-if="asset">
-      <legend>Vertification:</legend>
+      <legend>Vertification against *</legend>
       <p>Status: {{asset.status}}</p>
       <p v-if="progress!==0">Progress {{progress}}</p>
       <p>
@@ -29,7 +35,7 @@
     </fieldset>
 
     <fieldset v-if="orgAsset">
-      <legend>Vertification against Organization "vchain.us":</legend>
+      <legend>Vertification against Organization {{org}}:</legend>
       <p>Status: {{orgAsset.status}}</p>
       <p v-if="orgProgress!==0">Progress {{orgProgress}}</p>
       <p>
@@ -53,21 +59,38 @@ export default {
     hash: null,
     orgAsset: null,
     progress: 0,
-    orgProgress: 0
+    orgProgress: 0,
+    staging: true
   }),
+  computed: {
+    config() {
+      return this.staging
+        ? {
+            assetUrl: "https://api.staging.codenotary.io/foundation/v1",
+            blockchainUrl: "https://main.staging.codenotary.io",
+            blockchainAssetAddress:
+              "0x05ce69454a13c8ac0bd20fdc48b09068f5c0a5ed",
+            blockchainOrganizationAddress:
+              "0x4a9a0547949ec55ecbf06738e8c2bad747f410bb"
+          }
+        : undefined;
+    },
+    org() {
+      return this.staging ? "summitsport.hu" : "vchain.us";
+    }
+  },
   methods: {
     async verify(target) {
-      const jsvcn = new Jsvcn();
+      const jsvcn = new Jsvcn(this.config);
       const result = await jsvcn.verify(target, this.onProgressChange);
-      console.log(result)
       this.asset = result;
     },
     async verifyAgainstOrg(target) {
-      const jsvcnOrg = new Jsvcn();
+      const jsvcnOrg = new Jsvcn(this.config);
       const result = await jsvcnOrg.verify(
         target,
         this.onProgressChange,
-        "summitsport.hu"
+        this.org
       );
       this.orgAsset = result;
     },
