@@ -76,7 +76,7 @@ export default {
         : undefined;
     },
     org() {
-      return this.staging ? "summitsport.hu" : "vchain.us";
+      return this.staging ? "vchain.us" : "vchain.us";
     }
   },
   methods: {
