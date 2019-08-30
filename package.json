@@ -49,6 +49,7 @@
     "mocktract": "github:matryx/mocktract-ethers.js",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-json": "^4.0.0"
   },
   "dependencies": {
