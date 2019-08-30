@@ -43,17 +43,19 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "babel-loader": "^8.0.6",
-    "jest": "^24.5.0",
+    "jest": "^24.9.0",
     "jest-fetch-mock": "^2.1.2",
     "lodash": "^4.17.15",
     "mocktract": "github:matryx/mocktract-ethers.js",
-    "rollup": "^1.17.0",
+    "rollup": "^1.20.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
-    "rollup-plugin-json": "^4.0.0"
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
   },
   "dependencies": {
-    "ethers": "^4.0.33",
+    "ethers": "^4.0.36",
     "filereader": "^0.10.3",
     "js-md5": "^0.7.3",
     "js-sha1": "^0.6.0",
