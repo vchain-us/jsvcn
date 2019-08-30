@@ -30,6 +30,8 @@ npm install jsvcn
 
 ## Examples
 
+ES6: 
+
 ```javascript
 
 import Jsvcn from "jsvcn"
@@ -42,6 +44,22 @@ jsvcn.verify(FILE).then(({ status }) => {
 })
 
 ```
+
+ES5 (bundled): 
+
+```
+<script src="dist/jsvcn.min.js" type="text/javascript"></script>
+```
+ 
+### Ethers.js
+
+Ethers.js is an external dependency. Always add this to your html page:
+
+```
+<script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript"></script>
+
+```
+
 
 The verify method always returns with a Promise. 
 If you prefer you can use async-await syntax as well: 
