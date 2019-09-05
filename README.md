@@ -48,8 +48,9 @@ jsvcn.verify(FILE).then(({ status }) => {
 ES5 (bundled): 
 
 ```
-<script src="dist/jsvcn.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/jsvcn@2.0.1/dist/jsvcn.min.js" type="text/javascript"></script>
 ```
+
  
 ### Ethers.js
 
