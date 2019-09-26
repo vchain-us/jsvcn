@@ -1,6 +1,8 @@
 
 import Verify from './modules/verify';
-import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ASSET_ADDRESS, BLOCKCHAIN_ORG_ADDRESS } from './config'
+import Sign from './modules/sign';
+
+import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ASSET_ADDRESS, BLOCKCHAIN_ORG_ADDRESS, API_URL } from './config'
 import { isValidLocalPath } from './utils/misc'
 
 class Jsvcn {
@@ -35,6 +37,73 @@ class Jsvcn {
 		} else if (typeof input === "string") {
 
 			return verify.hash(input)
+
+		} else {
+
+			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+
+		}
+
+	}
+
+	sign(input, onProgress) {
+		const sign = new Sign({ apiUrl })
+
+		if (input instanceof File) {
+			return sign.file(input, onProgress)
+
+		} else if (isValidLocalPath(input)) {
+
+			return sign.url(input)
+
+		} else if (typeof input === "string") {
+
+			return sign.hash(input)
+
+		} else {
+
+			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+
+		}
+	}
+
+	untrust(input, onProgress) {
+		const status = "UNTRUST"
+		const sign = new Sign({ apiUrl })
+
+		if (input instanceof File) {
+			return sign.file(input, onProgress, status)
+
+		} else if (isValidLocalPath(input)) {
+
+			return sign.url(input, status)
+
+		} else if (typeof input === "string") {
+
+			return sign.hash(input, status)
+
+		} else {
+
+			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+
+		}
+
+	}
+
+	unsupport(input, onProgress) {
+		const status = "UNSUPPORT"
+		const sign = new Sign({ apiUrl })
+
+		if (input instanceof File) {
+			return sign.file(input, onProgress, status)
+
+		} else if (isValidLocalPath(input)) {
+
+			return sign.url(input, status)
+
+		} else if (typeof input === "string") {
+
+			return sign.hash(input, status)
 
 		} else {
 
