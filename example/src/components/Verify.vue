@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h1>Jsvcn Demo</h1>
-
     <p>Environment:</p>
     <label for="checkbox">
       Staging:

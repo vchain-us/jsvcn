@@ -1,18 +1,21 @@
 <template>
   <div id="app">
-    <Verifier/>
+    <h1>Jsvcn Demo</h1>
+    <p>
+      <router-link to="/">Verify</router-link>&nbsp;
+      <router-link to="/sign">Sign</router-link>&nbsp;
+      <router-link to="/untrust">Untrust</router-link>&nbsp;
+      <router-link to="/unsupport">Unsupport</router-link>&nbsp;
+    </p>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Verifier from './components/Verifier.vue'
-
 export default {
-  name: 'app',
-  components: {
-    Verifier
-  }
-}
+  name: "app",
+  components: {}
+};
 </script>
 
 <style>
@@ -22,11 +25,12 @@ export default {
   margin-top: 60px;
 }
 
-input, textarea{
+input,
+textarea {
   width: 300px;
 }
 
-p{
+p {
   margin: 20px;
 }
 </style>
