@@ -13,19 +13,22 @@ class Jsvcn {
 
 		this.assetUrl = config.assetUrl || ASSET_URL;
 
+		this.apiUrl = config.apiUrl || API_URL;
+		this.credentials = config.credentials || null
 		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
 		this.blockchainAssetAddress = config.blockchainAssetAddress || BLOCKCHAIN_ASSET_ADDRESS;
 		this.blockchainOrganizationAddress = config.blockchainOrganizationAddress || BLOCKCHAIN_ORG_ADDRESS;
 
 		this.checksums = config.checksums || []
 		this.validationOnly = !!config.validationOnly
+
 	}
 
 
 	verify(input, onProgress, organization) {
-		const { blockchainUrl, assetUrl, checksums, validationOnly, blockchainAssetAddress, blockchainOrganizationAddress } = this
+		const { blockchainUrl, assetUrl, apiUrl, checksums, validationOnly, blockchainAssetAddress, blockchainOrganizationAddress } = this
 
-		const verify = new Verify({ assetUrl, blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress, validationOnly, checksums }, organization)
+		const verify = new Verify({ apiUrl, assetUrl, blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress, validationOnly, checksums }, organization)
 
 		if (input instanceof File) {
 			return verify.file(input, onProgress)
@@ -40,74 +43,75 @@ class Jsvcn {
 
 		} else {
 
-			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+			throw new Error("Invalid frist argument, please provide hash, file or local file url")
 
 		}
 
 	}
 
-	sign(input, onProgress) {
-		const sign = new Sign({ apiUrl })
+	sign(input, signData, onProgress) {
+		const { apiUrl, credentials } = this
+		const sign = new Sign({ apiUrl, credentials })
 
 		if (input instanceof File) {
-			return sign.file(input, onProgress)
+			return sign.file(input, onProgress, "SIGN", signData)
 
 		} else if (isValidLocalPath(input)) {
 
-			return sign.url(input)
+			return sign.url(input, "SIGN", signData)
 
 		} else if (typeof input === "string") {
 
-			return sign.hash(input)
+			return sign.hash(input, "SIGN", signData)
 
 		} else {
 
-			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+			throw new Error("Invalid frist argument, please provide hash, file or local file url")
 
 		}
 	}
 
 	untrust(input, onProgress) {
-		const status = "UNTRUST"
-		const sign = new Sign({ apiUrl })
+		const { apiUrl, credentials } = this
+		const sign = new Sign({ apiUrl, credentials })
 
 		if (input instanceof File) {
-			return sign.file(input, onProgress, status)
+			return sign.file(input, onProgress, "UNTRUST")
 
 		} else if (isValidLocalPath(input)) {
 
-			return sign.url(input, status)
+			return sign.url(input, "UNTRUST")
 
 		} else if (typeof input === "string") {
 
-			return sign.hash(input, status)
+			return sign.hash(input, "UNTRUST")
 
 		} else {
 
-			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+			throw new Error("Invalid frist argument, please provide hash, file or local file url")
 
 		}
 
 	}
 
 	unsupport(input, onProgress) {
-		const status = "UNSUPPORT"
-		const sign = new Sign({ apiUrl })
+		const { apiUrl, credentials } = this
+		const sign = new Sign({ apiUrl, credentials })
 
 		if (input instanceof File) {
-			return sign.file(input, onProgress, status)
+			return sign.file(input, onProgress, "UNSUPPORT")
 
 		} else if (isValidLocalPath(input)) {
 
-			return sign.url(input, status)
+			return sign.url(input, "UNSUPPORT")
 
 		} else if (typeof input === "string") {
 
-			return sign.hash(input, status)
+			return sign.hash(input, "UNSUPPORT")
 
 		} else {
 
-			throw new Error("Invalid frist argument, please provide a hash OR file OR local file url")
+			throw new Error("Invalid frist argument, please provide hash, file or local file url")
 
 		}
 
