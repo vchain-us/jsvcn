@@ -7,54 +7,76 @@ import { isValidLocalPath } from "../utils/misc";
 class Sign {
 
 	constructor(options) {
-		const { apiUrl, checksums } = options
+		const { apiUrl, credentials } = options
 
 		if (!apiUrl) throw Error("apiUrl is missing from configuration")
+		if (!credentials) throw Error("credentials are missing from configuration")
 
-		this.apiClient = new CodenotaryApiClient(apiUrl);
-		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
+		this.apiClient = new CodenotaryApiClient(apiUrl, credentials);
 	}
 
-	async hash(hash, status) {
+	async hash(hash, signType, signData) {
 		if (!hash || typeof hash !== 'string') throw Error("Hash should be a valid string")
 
-		const response = await this.apiClient.sign(hash, this.organization)
+		let response = {}
 
-		const { owner, level, status, timestamp } = response
+		signData = {
+			...signData,
+			kind: signData.kind || "hash",
+			size: signData.size || 0,
+			name: signData.name || "",
+			contentType: signData || ""
+		}
+
+		if (signType === "SIGN") {
+			response = await this.apiClient.sign(hash, signData)
+		} else if (signType === "UNTRUST") {
+			response = await this.apiClient.untrust(hash)
+		} else if (signType === "UNSUPPORT") {
+			response = await this.apiClient.unsupport(hash)
+		}
 
 		return {
-			hash,
-			level: assetLevel(level),
-			status: assetStatus(status),
-			timestamp,
-			owner
+			...response,
+			level: assetLevel(response.level),
+			status: assetStatus(response.status),
 		}
 
 	}
 
-	async file(file, onProgress, status) {
+	async file(file, onProgress, signType, signData) {
 
 		if (!file || !(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
 
-		const hashes = await hashFile(file, this.algorithms, onProgress)
+		const hashes = await hashFile(file, ["sha256"], onProgress)
 
-		const asset = await this.hash(hashes.sha256, status)
-
-		return {
-			checksums: hashes, ...asset,
+		signData = {
+			...signData,
+			kind,
+			size,
+			name,
+			contentType
 		}
+
+		return await this.hash(hashes.sha256, signType, signData)
+
 	}
 
-	async url(path, onProgress, status) {
+	async url(path, onProgress, signType, signData) {
 		if (!path || !isValidLocalPath(path)) throw Error("Invalid frist argument, provide a local file path starts with file://");
 
-		const hashes = await hashFile(path, this.algorithms, onProgress)
+		const hashes = await hashFile(path, ["sha256"], onProgress)
 
-		const asset = await this.hash(hashes.sha256, status)
-
-		return {
-			checksums: hashes, ...asset,
+		signData = {
+			...signData,
+			kind,
+			size,
+			name,
+			contentType
 		}
+
+
+		return await this.hash(hashes.sha256, signType, signData)
 	}
 
 }
