@@ -22,10 +22,10 @@ class Sign {
 
 		signData = {
 			...signData,
-			kind: signData.kind || "hash",
+			kind: signData.kind || "",
 			size: signData.size || 0,
-			name: signData.name || "",
-			contentType: signData || ""
+			name: signData.name || hash,
+			contentType: signData.contentType || ""
 		}
 
 		if (signType === "SIGN") {
@@ -49,13 +49,13 @@ class Sign {
 		if (!file || !(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
 
 		const hashes = await hashFile(file, ["sha256"], onProgress)
-
+		console.log(file)
 		signData = {
 			...signData,
-			kind,
-			size,
-			name,
-			contentType
+			kind: "file",
+			size: file.size,
+			name: file.name,
+			contentType: file.type
 		}
 
 		return await this.hash(hashes.sha256, signType, signData)
@@ -69,7 +69,7 @@ class Sign {
 
 		signData = {
 			...signData,
-			kind,
+			kind: "file",
 			size,
 			name,
 			contentType
