@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    <h1>Jsvcn Demo</h1>
-    <p>
-      <router-link to="/">Verify</router-link>&nbsp;
-      <router-link to="/sign">Sign</router-link>&nbsp;
-      <router-link to="/untrust">Untrust</router-link>&nbsp;
-      <router-link to="/unsupport">Unsupport</router-link>&nbsp;
-    </p>
+    <div
+      class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
+    >
+      <h5 class="my-0 mr-md-auto font-weight-normal">Jsvcn demo</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <router-link class="p-2 text-dark" to="/">Verify</router-link>&nbsp;
+        <router-link class="p-2 text-dark" to="/sign">Sign</router-link>&nbsp;
+        <router-link class="p-2 text-dark" to="/untrust">Untrust</router-link>&nbsp;
+        <router-link class="p-2 text-dark" to="/unsupport">Unsupport</router-link>&nbsp;
+      </nav>
+      <a class="btn btn-outline-primary" href="#">Github</a>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -19,12 +24,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: sans-serif;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
 input,
 textarea {
   width: 300px;
