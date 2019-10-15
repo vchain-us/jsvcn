@@ -1,24 +1,54 @@
 <template>
-  <div id="app">
-    <div
-      class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
-    >
-      <h5 class="my-0 mr-md-auto font-weight-normal">Jsvcn demo</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <router-link class="p-2 text-dark" to="/">Verify</router-link>&nbsp;
-        <router-link class="p-2 text-dark" to="/sign">Sign</router-link>&nbsp;
-        <router-link class="p-2 text-dark" to="/untrust">Untrust</router-link>&nbsp;
-        <router-link class="p-2 text-dark" to="/unsupport">Unsupport</router-link>&nbsp;
-      </nav>
-      <a class="btn btn-outline-primary" href="#">Github</a>
-    </div>
-    <router-view></router-view>
+  <div>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://codenotary.io">
+          <img src="@/assets/logo.svg" width="80" />
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <router-link class="navbar-item" to="/">Authenticate</router-link>&nbsp;
+          <router-link class="navbar-item" to="/sign">Notarize</router-link>&nbsp;
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" placeholder="Email" type="text" v-model="email" />
+              </p>
+              <p class="control">
+                <input class="input" placeholder="Password" type="password" v-model="password" />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <div class="container">
+        <router-view v-bind="globalProps"></router-view>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
   name: "app",
+  data: () => ({
+    email: "peter+1234@vchain.us",
+    password: "asdasdasd1A",
+    staging: true
+  }),
+  computed: {
+    globalProps() {
+      return { email: this.email, password: this.password };
+    },
+    isAuthRequired() {
+      return $this.$route.name === "sign";
+    }
+  },
   components: {}
 };
 </script>

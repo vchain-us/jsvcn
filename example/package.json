@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "bulma": "^0.7.5",
     "core-js": "^2.6.5",
     "jsvcn": "git+https://github.com/vchain-us/jsvcn.git",
     "vue": "^2.6.10",

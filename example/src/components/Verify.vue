@@ -1,47 +1,51 @@
 <template>
   <div>
-    <p>Environment:</p>
-    <label for="checkbox">
-      Staging:
-      <input type="checkbox" id="checkbox" v-model="staging" />
-    </label>
-    <br />
-    <fieldset>
-      <legend>Verify a file</legend>
-      <input type="file" id="file" name="file" @change="onFileChange" />
-    </fieldset>
-    <br />
-    <fieldset>
-      <legend>Verify a hash</legend>
-      <input type="text" v-model="hash" @change="onHashChange" />
-    </fieldset>
+    <div class="columns">
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <label class="label">Authenticate a file</label>
+            <input class="file" type="file" id="file" name="file" @change="onFileChange" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <label class="label">Authenticate a hash</label>
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="text" v-model="hash" />
+              </p>
+              <p class="control">
+                <button class="button" @click="onHashSend">Send</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div v-if="progress">Progress: {{progress}}</div>
 
-    <h1>Results</h1>
-
-    <div v-if="progress">Progress: {{progress}}</div>
-    <div v-if="orgProgress">Org. Progress: {{orgProgress}}</div>
-
-    <fieldset v-if="asset">
-      <legend>Vertification against *</legend>
-      <p>Status: {{asset.status}}</p>
-      <p v-if="progress!==0">Progress {{progress}}</p>
-      <p>
-        Raw response:
-        <br />
-        <textarea rows="10">{{asset}}</textarea>
-      </p>
-    </fieldset>
-
-    <fieldset v-if="orgAsset">
-      <legend>Vertification against Organization {{org}}:</legend>
-      <p>Status: {{orgAsset.status}}</p>
-      <p v-if="orgProgress!==0">Progress {{orgProgress}}</p>
-      <p>
-        Raw response:
-        <br />
-        <textarea rows="10">{{orgAsset}}</textarea>
-      </p>
-    </fieldset>
+        <fieldset v-if="asset">
+          <legend>Authentication against *</legend>
+          <p>Status: {{asset.status}}</p>
+          <p v-if="progress!==0">Progress {{progress}}</p>
+          <p>
+            <textarea rows="10">{{asset}}</textarea>
+          </p>
+        </fieldset>
+      </div>
+      <div class="column">
+        <div v-if="orgProgress">Org. Progress: {{orgProgress}}</div>
+        <fieldset v-if="orgAsset">
+          <legend>Authentication against <strong>{{org}}</strong> Organization:</legend>
+          <p>Status: {{orgAsset.status}}</p>
+          <p v-if="orgProgress!==0">Progress {{orgProgress}}</p>
+          <p>
+            <textarea rows="10">{{orgAsset}}</textarea>
+          </p>
+        </fieldset>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,7 +101,7 @@ export default {
       await this.verify(file);
       await this.verifyAgainstOrg(file);
     },
-    async onHashChange() {
+    async onHashSend() {
       await this.verify(this.hash);
       await this.verifyAgainstOrg(this.hash);
     },

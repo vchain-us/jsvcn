@@ -10,8 +10,8 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
-    { path: '/sign', component: Sign },
-    { path: '/', component: Verify }
+    { path: '/sign', component: Sign, name: 'sign' },
+    { path: '/', component: Verify, name: 'verify' }
   ]
 })
 
