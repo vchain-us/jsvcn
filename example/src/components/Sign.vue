@@ -1,33 +1,43 @@
 <template>
-  <div class="columns">
-    <div class="column">
-      <div class="card">
-        <div class="card-content">
-          <label class="label">Notarize a file</label>
-          <input class="file" type="file" id="file" name="file" @change="onFileChange" />
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="card">
+          <div class="card-content">
+            <label class="label">Notarize a file</label>
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" id="file" name="file" @change="onFileChange" />
+                <span class="file-cta">
+                  <span class="file-label">Choose a file…</span>
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <label class="label">Notarize a hash</label>
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" v-model="hash" />
-            </p>
-            <p class="control">
-              <button class="button" @click="onHashSend">Send</button>
-            </p>
+        <br />
+        <div class="card">
+          <div class="card-content">
+            <label class="label">Notarize a hash</label>
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="text" v-model="hash" />
+              </p>
+              <p class="control">
+                <button class="button" @click="onHashSend">Send</button>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="column">
-      <div v-if="progress">Progress: {{progress}}</div>
-      <div v-if="asset">
-        <p v-if="progress!==0">Progress {{progress}}</p>
-        <p>
-          <textarea class="textarea" style="width:100%" rows="10">{{asset.data}}</textarea>
-        </p>
+      <div class="column is-half">
+        <div v-if="progress">Progress..</div>
+        <div v-if="asset">
+          <h3>Notarization response:</h3>
+          <div class="result">
+          <vue-json-pretty :data="asset.data"></vue-json-pretty>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -75,7 +85,9 @@ export default {
   methods: {
     async sign(target) {
       const jsvcn = new Jsvcn(this.config);
+      this.progress = true;
       const result = await jsvcn.sign(target, {}, this.onProgressChange);
+      this.progress = false;
       this.asset = result;
     },
     async onFileChange(event) {

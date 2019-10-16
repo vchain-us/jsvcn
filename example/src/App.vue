@@ -53,9 +53,9 @@
 export default {
   name: "app",
   data: () => ({
-    email: "peter+1234@vchain.us",
-    password: "asdasdasd1A",
-    organization: "vchain.us",
+    email: "",
+    password: "",
+    organization: "",
     staging: true
   }),
   computed: {

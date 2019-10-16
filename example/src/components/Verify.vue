@@ -1,13 +1,21 @@
 <template>
-  <div>
+  <div class="container">
     <div class="columns">
-      <div class="column">
+      <div class="column is-one-third">
         <div class="card">
           <div class="card-content">
             <label class="label">Authenticate a file</label>
-            <input class="file" type="file" id="file" name="file" @change="onFileChange" />
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" id="file" name="file" @change="onFileChange" />
+                <span class="file-cta">
+                  <span class="file-label">Choose a file…</span>
+                </span>
+              </label>
+            </div>
           </div>
         </div>
+        <br />
         <div class="card">
           <div class="card-content">
             <label class="label">Authenticate a hash</label>
@@ -22,28 +30,28 @@
           </div>
         </div>
       </div>
-      <div class="column">
-        <div v-if="progress">Progress: {{progress}}</div>
+      <div class="column is-one-third">
+        <div v-if="progress">Progress...</div>
 
-        <fieldset v-if="asset">
-          <legend>Authentication against *</legend>
-          <p>Status: {{asset.status}}</p>
-          <p v-if="progress!==0">Progress {{progress}}</p>
-          <p>
-            <textarea rows="10">{{asset}}</textarea>
-          </p>
-        </fieldset>
+        <div v-if="asset">
+          <h3>Authentication against *</h3>
+          <div class="result">
+            <vue-json-pretty :data="asset"></vue-json-pretty>
+          </div>
+        </div>
       </div>
-      <div class="column">
-        <div v-if="orgProgress">Org. Progress: {{orgProgress}}</div>
-        <fieldset v-if="orgAsset">
-          <legend>Authentication against <strong>{{org}}</strong> Organization:</legend>
-          <p>Status: {{orgAsset.status}}</p>
-          <p v-if="orgProgress!==0">Progress {{orgProgress}}</p>
-          <p>
-            <textarea rows="10">{{orgAsset}}</textarea>
-          </p>
-        </fieldset>
+
+      <div class="column is-one-third" v-if="organization!=''">
+        <div v-if="orgProgress">Org. Progress...</div>
+        <div v-if="orgAsset">
+          <h3>
+            Authentication against organization:
+            <strong>{{organization}}</strong>
+          </h3>
+          <div class="result">
+            <vue-json-pretty :data="orgAsset"></vue-json-pretty>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -81,9 +89,6 @@ export default {
               "0x4a9a0547949ec55ecbf06738e8c2bad747f410bb"
           }
         : undefined;
-    },
-    org() {
-      return this.staging ? "vchain.us" : "vchain.us";
     }
   },
   methods: {
@@ -97,7 +102,7 @@ export default {
       const result = await jsvcnOrg.verify(
         target,
         this.onProgressChange,
-        this.org
+        this.organization
       );
       this.orgAsset = result;
     },
