@@ -3,7 +3,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://codenotary.io">
-          <img src="@/assets/logo.svg" width="80" />
+          <img src="@/assets/logo.svg" style="max-height: 50px; margin: 5px;" />
         </a>
       </div>
       <div class="navbar-menu">
@@ -15,10 +15,28 @@
           <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" placeholder="Email" type="text" v-model="email" />
+                <input
+                  :class="isAuthRequired && email ==='' ? 'input is-danger' : 'input'"
+                  placeholder="Email"
+                  type="text"
+                  v-model="email"
+                />
               </p>
               <p class="control">
-                <input class="input" placeholder="Password" type="password" v-model="password" />
+                <input
+                  :class="isAuthRequired && password==='' ? 'input is-danger' : 'input'"
+                  placeholder="Password"
+                  type="password"
+                  v-model="password"
+                />
+              </p>
+              <p class="control">
+                <input
+                  class="input"
+                  placeholder="Organization (optional)"
+                  type="text"
+                  v-model="organization"
+                />
               </p>
             </div>
           </div>
@@ -26,9 +44,7 @@
       </div>
     </nav>
     <section class="section">
-      <div class="container">
-        <router-view v-bind="globalProps"></router-view>
-      </div>
+      <router-view v-bind="globalProps"></router-view>
     </section>
   </div>
 </template>
@@ -39,14 +55,19 @@ export default {
   data: () => ({
     email: "peter+1234@vchain.us",
     password: "asdasdasd1A",
+    organization: "vchain.us",
     staging: true
   }),
   computed: {
     globalProps() {
-      return { email: this.email, password: this.password };
+      return {
+        email: this.email,
+        password: this.password,
+        organization: this.organization
+      };
     },
     isAuthRequired() {
-      return $this.$route.name === "sign";
+      return this.$route.name === "sign";
     }
   },
   components: {}

@@ -47,10 +47,12 @@ export default {
     asset: null,
     hash: null,
     orgAsset: null,
-    progress: 0,
-    orgProgress: 0,
+    progress: false,
     staging: true
   }),
+  components: {
+    VueJsonPretty
+  },
   computed: {
     config() {
       return this.staging
