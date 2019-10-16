@@ -54,12 +54,19 @@ export default {
 </script>
 
 <style>
-input,
-textarea {
-  width: 300px;
+body,
+html {
+  height: 100%;
 }
 
-p {
-  margin: 20px;
+.navbar {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.result {
+  background: white;
+  overflow: scroll;
+  height:500px;
+  padding: 20px;
 }
 </style>

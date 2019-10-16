@@ -51,10 +51,15 @@
 
 <script>
 import Jsvcn from "../../../index";
+import VueJsonPretty from "vue-json-pretty";
 
 export default {
   props: {
-    msg: String
+    msg: String,
+    organization: String
+  },
+  components: {
+    VueJsonPretty
   },
   data: () => ({
     asset: null,

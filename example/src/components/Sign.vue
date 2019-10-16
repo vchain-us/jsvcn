@@ -35,6 +35,7 @@
 
 <script>
 import Jsvcn from "../../../index";
+import VueJsonPretty from 'vue-json-pretty'
 
 export default {
   props: {
@@ -92,12 +93,3 @@ export default {
   }
 };
 </script>
-<style>
-.container {
-  display: flex;
-}
-
-body,html{
-  height: 100%;
-}
-</style>
