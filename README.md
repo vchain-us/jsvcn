@@ -58,25 +58,13 @@ const jsvcn = new Jsvcn();
 ### Configuration
 
 
-#### Authentication for Notarization
-```javascript
-
-const jsvcn = new Jsvcn({
-	credentials: {
-		email: 'test@vchain.us',
-		password: 'abc123',
-	},
-	...
-);
-
-```
 #### List of configuration options
 
 Every configuration option is optional.
 
 | Configuration |  Descrition |
 | --- | --- |
-| credentials  | Credentials for notarization (see above) | 
+| credentials  | Credentials for notarization | 
 | mode | Default value: 'api' - Switch between 'api and 'blockchain' mode |
 | apiUrl | Custom CodeNotary API url - overwrite this if you use local vcn api |
 | blockchainUrl | CodeNotary Blockchain url - overwrite this if you want to use staging |
@@ -86,6 +74,7 @@ Every configuration option is optional.
 | checksums | Default value: ['sha256'] You can add more hash algorithms to get the hashed file's checksums.  | 
 | validationOnly | Default: false. Blockchain mode only. Set it to true in case you don't want to query asset details from the CodeNotary Asset Server (faster response) |
 
+
 ## Authentication
 
 ```javascript
@@ -93,6 +82,9 @@ jsvcn.verify(file).then((response) => {
  ...
 })
 ```
+
+More information about the response format: [#] (CodeNotary API Documentation])
+
 
 ## Notarization
 
@@ -102,11 +94,27 @@ jsvcn.sign(file).then((response) => {
 })
 ```
 
-More information about the response format: [CodeNotary API Documentation](#)
+For notarization you need to pass valid CodeNotary user credentials to the config: 
 
+```javascript
+
+const jsvcn = new Jsvcn({
+	credentials: {
+		email: 'test@vchain.us',
+		password: 'abc123',
+		// notarizationPassword: 'abc321' * 
+	},
+	...
+);
+```
+
+* ```notarizationPassword``` required only when your notarization password is different than your normal user password. 
+
+More information about the response format: [#] (CodeNotary API Documentation])
 
 
 ## FAQ:
+
 
 
 ### Authenticate / notarize sha256 hashes 
