@@ -76,14 +76,14 @@ Every configuration option is optional.
 
 | Configuration |  Descrition |
 | --- | --- |
-| credentials  | Credentials for notarization | 
-| mode | Switch between 'api and 'blockchain' mode |
+| credentials  | Credentials for notarization (see above) | 
+| mode | Default value: 'api' - Switch between 'api and 'blockchain' mode |
 | apiUrl | Custom CodeNotary API url - overwrite this if you use local vcn api |
 | blockchainUrl | CodeNotary Blockchain url - overwrite this if you want to use staging |
 | assetUrl |  CodeNotary Asset Server url - overwrite this if you want to use staging  |
 | blockchainAssetAddress |  Custom Contract address - for staging | 
 | blockchainOrganizationAddress |  Custom Org. Contract address - for staging | 
-| checksums (array) |  | You can add more hash algorithms to get the hashed file's checksums. Default value: ['sha256'] | 
+| checksums | Default value: ['sha256'] You can add more hash algorithms to get the hashed file's checksums.  | 
 | validationOnly | Default: false. Blockchain mode only. Set it to true in case you don't want to query asset details from the CodeNotary Asset Server (faster response) |
 
 ## Authentication
