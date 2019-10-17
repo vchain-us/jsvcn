@@ -1,6 +1,3 @@
-import CodenotaryFoundationClient from "../lib/codenotaryFoundation";
-import CodenotaryBlockchainClient from "../lib/codenotaryBlockchain";
-
 import hashFile from "../utils/hashFile"
 import hashMeta from "../utils/hashMeta"
 import { assetLevel, assetStatus } from "../utils/enums"
@@ -8,45 +5,53 @@ import { isValidLocalPath } from "../utils/misc";
 
 class Verify {
 
-	constructor(options, organization) {
-		const { blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress, assetUrl, validationOnly, checksums } = options
-
-		if (!blockchainUrl) throw Error("blockchainUrl is missing from configuration")
-		if (!assetUrl) throw Error("assetUrl is missing from configuration")
-		if (!blockchainAssetAddress) throw Error("blockchainAssetAddress is missing from configuration")
-		if (!blockchainOrganizationAddress) throw Error("blockchainOrganizationAddress is missing from configuration")
-
-		this.blockchainClient = new CodenotaryBlockchainClient(blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress);
-		this.assetClient = new CodenotaryFoundationClient(assetUrl);
+	constructor(clientService, options) {
+		const { validationOnly, checksums, organization } = options;
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
-		this.validationOnly = !!validationOnly
-		this.organization = organization
+		this.validationOnly = !!validationOnly;
+		this.organization = organization;
+		this.clientMode = clientService.type
+
+		if (this.clientMode === 'blockchain') {
+			this.blockchainService = clientService.service.blockchainService;
+			this.assetService = clientService.service.assetService;
+		} else {
+			this.apiService = clientService.service
+		}
 	}
 
 	async hash(hash) {
 		if (!hash || typeof hash !== 'string') throw Error("Hash should be a valid string")
 
-		const { valid, meta } = (this.organization) ? await this.blockchainClient.verifyAgainstOrganization(hash, this.organization) : await this.blockchainClient.verify(hash)
+		let response = {};
 
-		const { owner, level, status, timestamp } = meta
+		if (this.clientMode === 'blockchain') {
 
-		const response = {
-			hash,
-			level: assetLevel(level),
-			status: assetStatus(status),
-			timestamp,
-			owner
-		}
+			const { valid, meta } = (this.organization) ? await this.blockchainService.verifyAgainstOrganization(hash, this.organization) : await this.blockchainService.verify(hash)
 
-		let asset = {}
+			const { owner, level, status, timestamp } = meta
 
-		if (valid && !this.validationOnly) {
-			const metaHash = hashMeta(owner, level, status, timestamp);
-			asset = await this.asset(hash, metaHash)
-			return { ...asset, ...response }
+			response = {
+				hash,
+				level: assetLevel(level),
+				status: assetStatus(status),
+				timestamp,
+				owner
+			}
+
+			if (valid && !this.validationOnly) {
+				const metaHash = hashMeta(owner, level, status, timestamp);
+				const asset = await this.asset(hash, metaHash)
+				response = { ...asset, ...response }
+			}
+
+		} else {
+			const { data } = (this.organization) ? await this.apiService.verifyAgainstOrganization(hash, this.organization) : await this.apiService.verify(hash)
+			response = data
 		}
 
 		return response
+
 	}
 
 	async file(file, onProgress) {
@@ -74,8 +79,9 @@ class Verify {
 		}
 	}
 
+	// TODO move to another module eg. Inspect
 	async asset(hash, metaHash) {
-		return await this.assetClient.getArtifactByHashAndMetaHash(hash, metaHash)
+		return await this.assetService.getArtifactByHashAndMetaHash(hash, metaHash)
 	}
 }
 

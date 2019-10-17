@@ -1,6 +1,9 @@
 
 import Verify from './modules/verify';
 import Sign from './modules/sign';
+import CodenotaryFoundationClient from "./lib/codenotaryFoundation";
+import CodenotaryBlockchainClient from "./lib/codenotaryBlockchain";
+import CodenotaryApiClient from "./lib/codenotaryApi";
 
 import { ASSET_URL, BLOCKCHAIN_URL, BLOCKCHAIN_ASSET_ADDRESS, BLOCKCHAIN_ORG_ADDRESS, API_URL } from './config'
 import { isValidLocalPath } from './utils/misc'
@@ -10,25 +13,38 @@ class Jsvcn {
 	constructor(options) {
 
 		const config = options || {}
+		const mode = config.mode || 'api'
 
-		this.assetUrl = config.assetUrl || ASSET_URL;
+		const credentials = config.credentials || {}
 
-		this.apiUrl = config.apiUrl || API_URL;
-		this.credentials = config.credentials || null
-		this.blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
-		this.blockchainAssetAddress = config.blockchainAssetAddress || BLOCKCHAIN_ASSET_ADDRESS;
-		this.blockchainOrganizationAddress = config.blockchainOrganizationAddress || BLOCKCHAIN_ORG_ADDRESS;
-
+		const assetUrl = config.assetUrl || ASSET_URL;
+		const apiUrl = config.apiUrl || API_URL;
+		const blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;
+		const blockchainAssetAddress = config.blockchainAssetAddress || BLOCKCHAIN_ASSET_ADDRESS;
+		const blockchainOrganizationAddress = config.blockchainOrganizationAddress || BLOCKCHAIN_ORG_ADDRESS;
 		this.checksums = config.checksums || []
 		this.validationOnly = !!config.validationOnly
+
+		// init clients
+		this.clientService = (mode === 'blockchain') ? ({
+			type: 'blockchain',
+			service: {
+				blockchainService: new CodenotaryBlockchainClient(blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress),
+				assetService: new CodenotaryFoundationClient(assetUrl)
+			}
+		}) : ({
+			type: 'api',
+			service: new CodenotaryApiClient(apiUrl, credentials)
+		});
 
 	}
 
 
 	verify(input, onProgress, organization) {
-		const { blockchainUrl, assetUrl, apiUrl, checksums, validationOnly, blockchainAssetAddress, blockchainOrganizationAddress } = this
 
-		const verify = new Verify({ apiUrl, assetUrl, blockchainUrl, blockchainAssetAddress, blockchainOrganizationAddress, validationOnly, checksums }, organization)
+		const { checksums, validationOnly } = this
+
+		const verify = new Verify(this.clientService, { organization, checksums, validationOnly })
 
 		if (input instanceof File) {
 			return verify.file(input, onProgress)
@@ -50,8 +66,7 @@ class Jsvcn {
 	}
 
 	sign(input, signData, onProgress) {
-		const { apiUrl, credentials } = this
-		const sign = new Sign({ apiUrl, credentials })
+		const sign = new Sign(this.clientService)
 
 		if (input instanceof File) {
 			return sign.file(input, onProgress, "SIGN", signData)
@@ -72,8 +87,7 @@ class Jsvcn {
 	}
 
 	untrust(input, onProgress) {
-		const { apiUrl, credentials } = this
-		const sign = new Sign({ apiUrl, credentials })
+		const sign = new Sign(this.clientService)
 
 		if (input instanceof File) {
 			return sign.file(input, onProgress, "UNTRUST")
@@ -95,8 +109,7 @@ class Jsvcn {
 	}
 
 	unsupport(input, onProgress) {
-		const { apiUrl, credentials } = this
-		const sign = new Sign({ apiUrl, credentials })
+		const sign = new Sign(this.clientService)
 
 		if (input instanceof File) {
 			return sign.file(input, onProgress, "UNSUPPORT")

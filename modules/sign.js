@@ -1,18 +1,11 @@
-import CodenotaryApiClient from "../lib/codenotaryApi";
-
 import hashFile from "../utils/hashFile"
 import { assetLevel, assetStatus } from "../utils/enums"
 import { isValidLocalPath } from "../utils/misc";
 
 class Sign {
 
-	constructor(options) {
-		const { apiUrl, credentials } = options
-
-		if (!apiUrl) throw Error("apiUrl is missing from configuration")
-		if (!credentials) throw Error("credentials are missing from configuration")
-
-		this.apiClient = new CodenotaryApiClient(apiUrl, credentials);
+	constructor(clientService) {
+		this.clientService = clientService.service;
 	}
 
 	async hash(hash, signType, signData) {
@@ -29,11 +22,11 @@ class Sign {
 		}
 
 		if (signType === "SIGN") {
-			response = await this.apiClient.sign(hash, signData)
+			response = await this.clientService.sign(hash, signData)
 		} else if (signType === "UNTRUST") {
-			response = await this.apiClient.untrust(hash)
+			response = await this.clientService.untrust(hash)
 		} else if (signType === "UNSUPPORT") {
-			response = await this.apiClient.unsupport(hash)
+			response = await this.clientService.unsupport(hash)
 		}
 
 		return {
