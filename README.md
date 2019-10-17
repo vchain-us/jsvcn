@@ -50,12 +50,43 @@ ES5 (bundled):
 
 ```javascript
 
-const jsvcn = new Jsvcn(config);
+const jsvcn = new Jsvcn();
 
 ```
 
 
-### Authenticate
+### Configuration
+
+
+#### Authentication for Notarization
+```javascript
+
+const jsvcn = new Jsvcn({
+	credentials: {
+		email: 'test@vchain.us',
+		password: 'abc123',
+	},
+	...
+);
+
+```
+#### List of configuration options
+
+Every configuration option is optional.
+
+| Configuration  | Default value |  Descrition |
+| --- | --- | --- |
+| credentials  | {email: null, password: null, notarizationPassword: null } | Credentials for notarization | 
+| mode  |'api' | You can choose between 'api and 'blockchain' mode: [#](details) |
+| apiUrl |  | Custom CodeNotary API url - overwrite this if you use local vcn api |
+| blockchainUrl |  | CodeNotary Blockchain url - overwrite this if you want to use staging |
+| assetUrl |  |  CodeNotary Asset Server url - overwrite this if you want to use staging  |
+| blockchainAssetAddress | - | Custom Contract address - for staging | 
+| blockchainOrganizationAddress |  - | Custom Org. Contract address - for staging | 
+| checksums | ['sha256'] | You can add more hash algorithms to get the hashed file's checksums. | 
+| validationOnly | false | Set it to true in case you don't want to query assets details from CodeNotary (faster response, works only in blockchain mode) |
+
+## Authentication
 
 ```javascript
 jsvcn.verify(file).then((response) => {
@@ -63,7 +94,7 @@ jsvcn.verify(file).then((response) => {
 })
 ```
 
-### Notarize
+## Notarization
 
 ```javascript
 jsvcn.sign(file).then((response) => {
