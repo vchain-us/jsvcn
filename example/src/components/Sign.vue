@@ -2,14 +2,6 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-third">
-        <div class="notification is-link">
-<pre>
-jsvcn.sign([file|hash]).then((response) => {
-    ... 
-});
-</pre>
-          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> | <a href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Verify.vue">Source</a>
-        </div>
         <div class="card">
           <div class="card-content">
             <label class="label">Notarize a file</label>
@@ -36,6 +28,18 @@ jsvcn.sign([file|hash]).then((response) => {
               </p>
             </div>
           </div>
+        </div>
+        <br />
+        <div class="notification is-link">
+          <pre>
+jsvcn.sign([file|hash]).then((response) => {
+    ... 
+});
+</pre>
+          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> |
+          <a
+            href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Verify.vue"
+          >Source</a>
         </div>
       </div>
       <div class="column is-half">
