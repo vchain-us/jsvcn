@@ -3,8 +3,9 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://codenotary.io">
-          <img src="@/assets/logo.svg" style="max-height: 50px; margin: 5px;" />
+          <img src="@/assets/logo.svg" style="max-height: 50px; margin: 5px;" />Jsvcn Demo
         </a>
+        
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
@@ -89,5 +90,17 @@ html {
   overflow: scroll;
   height:500px;
   padding: 20px;
+}
+
+.navbar-brand{
+  padding-right: 50px;
+}
+
+pre{
+  padding: 10px;
+}
+
+.notification{
+  padding: 10px;
 }
 </style>

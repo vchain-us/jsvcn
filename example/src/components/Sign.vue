@@ -2,6 +2,14 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-third">
+        <div class="notification is-link">
+<pre>
+jsvcn.sign([file|hash]).then((response) => {
+    ... 
+});
+</pre>
+          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> | <a href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Verify.vue">Source</a>
+        </div>
         <div class="card">
           <div class="card-content">
             <label class="label">Notarize a file</label>
@@ -35,7 +43,7 @@
         <div v-if="asset">
           <h3>Notarization response:</h3>
           <div class="result">
-          <vue-json-pretty :data="asset.data"></vue-json-pretty>
+            <vue-json-pretty :data="asset.data"></vue-json-pretty>
           </div>
         </div>
       </div>
@@ -45,7 +53,7 @@
 
 <script>
 import Jsvcn from "../../../index";
-import VueJsonPretty from 'vue-json-pretty'
+import VueJsonPretty from "vue-json-pretty";
 
 export default {
   props: {

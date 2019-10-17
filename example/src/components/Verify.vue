@@ -2,6 +2,14 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-third">
+        <div class="notification is-link">
+<pre>
+jsvcn.verify([file|hash]).then((response) => {
+    ... 
+});
+</pre>
+          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> | <a href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Sign.vue">Source</a>
+        </div>
         <div class="card">
           <div class="card-content">
             <label class="label">Authenticate a file</label>
