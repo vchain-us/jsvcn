@@ -36,11 +36,13 @@ ES6:
 
 import Jsvcn from "jsvcn"
 
+const jsvcn = new Jsvcn(config);
+
 ```
 
 ES5 (bundled): 
 
-```
+```html
 <script src="https://unpkg.com/jsvcn@2.0.1/dist/jsvcn.min.js" type="text/javascript"></script>
 
 ```
@@ -53,50 +55,28 @@ const jsvcn = new Jsvcn(config);
 ```
 
 
-### Authenticate (verify)
+### Authenticate
 
 ```javascript
-jsvcn.verify(FILE).then(({ status }) => {
+jsvcn.verify(file).then((response) => {
  ...
 })
 ```
 
-### Notarize (sign)
+### Notarize
 
 ```javascript
-jsvcn.verify(FILE).then(({ status }) => {
+jsvcn.sign(file).then((response) => {
  ...
 })
 ```
 
+More information about the response format: [CodeNotary API Documentation](#)
 
 
-## Notes:
 
+## FAQ:
 
-### Authentication directly via the CodeNotary Blockchain with Ethers.js
-
-If you want to directly authenticate assets with CodeNotary Blockchain add this to your html page:
-
-```
-<script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript"></script>
-
-```
-and set ``` mode: 'blockchain',``` in your config. 
-
-### Async - await
-
-Verify and sign methods are always returns with a Promise. 
-If you prefer async-await syntax you can use that as well: 
-
-``` javascript
-
-async function myAuthenticate(){
- const {status} = await jsvcn.verify(FILE);
- ...
-}
-
-```
 
 ### Authenticate / notarize sha256 hashes 
 
@@ -108,23 +88,48 @@ jsvcn.verify("32c6a50aba0b30f63f124f4b2bb47dc027b9e48f838f71d1debe69d8680ecf70")
 
 ``` 
 
-### Progress callback (for large files)
+### Async - await syntax
 
-Verify and sign commands are providing a progress callback as second parameter which periodically returns with the percent value of the file hashing progress. This is really handy when you verify large files and want to display the progress.
+Verify and sign methods are always returning with a Promise. 
+If you prefer async-await syntax you can use that as well: 
 
 ``` javascript
-jsvcn.verify(FILE, (progress) => console.log(progress + '%'));
+
+async function myAuthenticate(){
+ const {status} = await jsvcn.verify(FILE);
+ ...
+}
+
+```
+
+### Progress callback (for large files)
+
+Since veriy and sign methods are asyncronous calls it's easy to implement progress indicators (eg. just toggle a variable before and after the call.) But for verify and sign commands we are also providing a progress callback as second parameter which periodically returns with the exact percentage of the file hashing progress. This is really handy when you verify large files and want to display (the real) status of the progress.
+
+``` javascript
+jsvcn.sign(file, (progress) => console.log(progress + '%'));
 
 ``` 
 
 ### Calculate Checksums
 
-CodeNotary.io uses SHA256 algorithm to calculate and compare file hashes, but this package can also provide SHA1, SHA512, MD5 checksums of the verified file. You can add "checksums" attribute to the config object with an array of checksums you want to get back from the verify method.
+CodeNotary.io uses SHA256 algorithm to calculate and compare file hashes, but our library can also provide SHA1, SHA512, MD5 checksums of the file. You can add "checksums" attribute to the config object with an array of checksums you want to get back from the verify method.
 
 ``` javascript
 const jsvcn = new Jsvcn({checksums: ["sha1", "md5"]});
 
 ``` 
+
+
+### Authentication directly via the CodeNotary Blockchain with Ethers.js
+
+If you want to directly authenticate assets with CodeNotary Blockchain add this to your html page:
+
+```
+<script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript"></script>
+
+```
+and set ``` mode: 'blockchain',``` in your config. 
 
 ## License
 
