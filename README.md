@@ -63,13 +63,13 @@ Every configuration option is optional.
 | --- | --- |
 | credentials  | Credentials for notarization | 
 | mode | Default value: 'api' - Switch between 'api and 'blockchain' mode |
+| checksums | Default value: ['sha256'] You can add more hash algorithms to get the hashed file's checksums.  | 
+| validationOnly | Default: false. Blockchain mode only. Set it to true in case you don't want to query asset details from the CodeNotary Asset Server (faster response) |
 | apiUrl | Custom CodeNotary API url - overwrite this if you use local vcn api |
 | blockchainUrl | CodeNotary Blockchain url - overwrite this if you want to use staging |
 | assetUrl |  CodeNotary Asset Server url - overwrite this if you want to use staging  |
 | blockchainAssetAddress |  Custom Contract address - for staging | 
 | blockchainOrganizationAddress |  Custom Org. Contract address - for staging | 
-| checksums | Default value: ['sha256'] You can add more hash algorithms to get the hashed file's checksums.  | 
-| validationOnly | Default: false. Blockchain mode only. Set it to true in case you don't want to query asset details from the CodeNotary Asset Server (faster response) |
 
 
 ## Authentication
@@ -99,13 +99,11 @@ const jsvcn = new Jsvcn({
 	credentials: {
 		email: 'test@vchain.us',
 		password: 'abc123',
-		// notarizationPassword: 'abc321' * 
+		// notarizationPassword: 'abc321' - required only when your notarization password is different than your normal user password. 
 	},
 	...
 );
 ```
-
-* ```notarizationPassword``` required only when your notarization password is different than your normal user password. 
 
 More information about the response format: [#] (CodeNotary API Documentation])
 
