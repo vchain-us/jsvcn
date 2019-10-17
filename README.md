@@ -53,11 +53,15 @@ var jsvcn = new Jsvcn();
 
 ### Configuration
 
-Configure the client library via passing configuration object to the constructor: 
+Configure the client via passing a configuration object to the constructor: 
 
 ```javascript
 
 const config = {
+	credentials: {
+		email: 'test@vchain.us',
+		password: 'abc123',
+	},
 	mode: 'blockchain',
 	...
 }
@@ -102,7 +106,7 @@ jsvcn.sign(file).then((response) => {
 })
 ```
 
-For notarization you need to pass valid CodeNotary user credentials to the config: 
+For notarization you need to pass valid CodeNotary user credentials in the config: 
 
 ```javascript
 
