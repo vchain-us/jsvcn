@@ -1,6 +1,6 @@
 # jsvcn
 
-#### CodeNotary JavaScript Client 
+#### CodeNotary - JavaScript Client 
 
 > Global, de-centralized signing of code and other digital assets.
 
@@ -33,7 +33,7 @@ ES6:
 
 import Jsvcn from "jsvcn"
 
-const jsvcn = new Jsvcn(config);
+const jsvcn = new Jsvcn();
 
 ```
 
@@ -44,20 +44,29 @@ ES5 (bundled):
 
 ```
 
-
 ```javascript
 
-const jsvcn = new Jsvcn();
+var jsvcn = new Jsvcn();
 
 ```
 
 
 ### Configuration
 
+Configure the client library via passing configuration object to the constructor: 
+
+```javascript
+
+const config = {
+	mode: 'blockchain',
+	...
+}
+
+const jsvcn = new Jsvcn(config);
+
+```
 
 #### List of configuration options
-
-Every configuration option is optional.
 
 | Configuration |  Descrition |
 | --- | --- |
@@ -70,6 +79,8 @@ Every configuration option is optional.
 | assetUrl |  CodeNotary Asset Server url - overwrite this if you want to use staging  |
 | blockchainAssetAddress |  Custom Contract address - for staging | 
 | blockchainOrganizationAddress |  Custom Org. Contract address - for staging | 
+
+Every configuration option is optional.
 
 
 ## Authentication
@@ -109,7 +120,6 @@ More information about the response format: [#] (CodeNotary API Documentation])
 
 
 ## FAQ:
-
 
 
 ### Authenticate / notarize sha256 hashes 
@@ -164,6 +174,7 @@ If you want to directly authenticate assets with CodeNotary Blockchain add this 
 
 ```
 and set ``` mode: 'blockchain',``` in your config. 
+
 
 ## License
 
