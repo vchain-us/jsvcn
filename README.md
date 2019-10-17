@@ -15,9 +15,6 @@ platform.
 ## Demo
 
 - [Demo App in Vue](https://vchain-us.github.io/jsvcn/) ([source](https://github.com/vchain-us/jsvcn/tree/master/example))
-
-## Apps which are using this library:
-
 - [CodeNotary Verify App](https://authenticate.codenotary.io/)
 - [CodeNotary Chrome Extension](https://chrome.google.com/webstore/detail/vchain-codenotary-downloa/mnloemedehacppeggbipipjlphdjpjcb)
 
