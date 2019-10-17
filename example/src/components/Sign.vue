@@ -13,39 +13,36 @@
                 </span>
               </label>
             </div>
+            <hr />
+            <p class="control">
+              <input
+                :class="isAuthRequired && email ==='' ? 'input is-danger' : 'input'"
+                placeholder="Email"
+                type="text"
+                v-model="email"
+              />
+            </p>
+            <br/>
+            <p class="control">
+              <input
+                :class="isAuthRequired && password==='' ? 'input is-danger' : 'input'"
+                placeholder="Password"
+                type="password"
+                v-model="password"
+              />
+            </p>
           </div>
-        </div>
-        <br />
-        <div class="card">
-          <div class="card-content">
-            <label class="label">Notarize a hash</label>
-            <div class="field is-grouped">
-              <p class="control">
-                <input class="input" type="text" v-model="hash" />
-              </p>
-              <p class="control">
-                <button class="button" @click="onHashSend">Send</button>
-              </p>
-            </div>
-          </div>
-        </div>
-        <br />
-        <div class="notification is-link">
-          <pre>
-jsvcn.sign([file|hash]).then((response) => {
-    ... 
-});
-</pre>
-          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> |
-          <a
-            href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Verify.vue"
-          >Source</a>
         </div>
       </div>
       <div class="column is-half">
-        <div v-if="progress">Progress..</div>
+        <div v-if="progress">Notarization in progress..</div>
         <div v-if="asset">
-          <h3>Notarization response:</h3>
+          <h3 class="h3">
+            <strong>{{asset.data.name}}</strong> notarization:
+            <strong>successful</strong>.
+          </h3>
+          <br />
+          <br />
           <div class="result">
             <vue-json-pretty :data="asset.data"></vue-json-pretty>
           </div>
@@ -62,10 +59,10 @@ import VueJsonPretty from "vue-json-pretty";
 export default {
   props: {
     msg: String,
-    email: String,
-    password: String
   },
   data: () => ({
+    email: "",
+    password: "",
     asset: null,
     hash: null,
     orgAsset: null,
@@ -75,32 +72,23 @@ export default {
   components: {
     VueJsonPretty
   },
-  computed: {
-    config() {
-      return this.staging
-        ? {
-            apiUrl: "https://api.staging.codenotary.io",
-            credentials: {
-              email: this.email,
-              password: this.password
-            }
-          }
-        : {
-            apiUrl: "https://api.codenotary.io",
-            credentials: {
-              email: this.email,
-              password: this.password
-            }
-          };
-    }
-  },
+
   methods: {
     async sign(target) {
-      const jsvcn = new Jsvcn(this.config);
-      this.progress = true;
-      const result = await jsvcn.sign(target, {}, this.onProgressChange);
-      this.progress = false;
-      this.asset = result;
+      const jsvcn = new Jsvcn({
+        credentials: {
+          email: this.email,
+          password: this.password
+        }
+      });
+      try {
+        this.progress = true;
+        const result = await jsvcn.sign(target, {});
+        this.asset = result;
+        this.progress = false;
+      } catch (e) {
+        alert(e.message);
+      }
     },
     async onFileChange(event) {
       const file = event.target.files[0];
@@ -108,9 +96,6 @@ export default {
     },
     async onHashSend() {
       await this.sign(this.hash);
-    },
-    onProgressChange(progress) {
-      this.progress = progress; // returns only when file size is 50Mb+..
     },
     resetState() {
       this.asset = {};

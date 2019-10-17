@@ -42,7 +42,6 @@ class Sign {
 		if (!file || !(file instanceof File)) throw Error("Invalid frist argument, provide a file.");
 
 		const hashes = await hashFile(file, ["sha256"], onProgress)
-		console.log(file)
 		signData = {
 			...signData,
 			kind: "file",

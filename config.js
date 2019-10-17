@@ -1,6 +1,6 @@
 const ASSET_URL = "https://api.codenotary.io/foundation/v1"
 const BLOCKCHAIN_URL = "https://main.codenotary.io"
-const API_URL = "https://api.codenotary.io/"
+const API_URL = "https://api.codenotary.io"
 const CHUNK_SIZE = 1024 * 1024 * 50;
 
 const BLOCKCHAIN_ASSET_ADDRESS = "0x3222c50e1917c3551c7b6ee10d8e1bb00b84062b";

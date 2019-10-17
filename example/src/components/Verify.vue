@@ -13,40 +13,29 @@
                 </span>
               </label>
             </div>
+            <br />
+            <p class="control">
+              <label>Against:</label>
+              <input
+                class="input"
+                placeholder="Organization name (optional)"
+                type="text"
+                v-model="organization"
+              />
+            </p>
           </div>
-        </div>
-        <br />
-        <div class="card">
-          <div class="card-content">
-            <label class="label">Authenticate a hash</label>
-            <div class="field is-grouped">
-              <p class="control">
-                <input class="input" type="text" v-model="hash" />
-              </p>
-              <p class="control">
-                <button class="button" @click="onHashSend">Send</button>
-              </p>
-            </div>
-          </div>
-        </div>
-        <br/>
-        <div class="notification is-link"> 
-          <pre>
-jsvcn.verify([file|hash]).then((response) => {
-    ... 
-});
-</pre>
-          <a href="https://github.com/vchain-us/jsvcn/">Read more</a> |
-          <a
-            href="https://github.com/vchain-us/jsvcn/blob/master/example/src/components/Sign.vue"
-          >Source</a>
         </div>
       </div>
       <div class="column is-one-third">
         <div v-if="progress">Progress...</div>
 
         <div v-if="asset">
-          <h3>Authentication against *</h3>
+          <h3>
+            Authentication:
+            <strong>{{asset.verification.status}}</strong>.
+          </h3>
+          <br />
+          <br />
           <div class="result">
             <vue-json-pretty :data="asset"></vue-json-pretty>
           </div>
@@ -57,9 +46,13 @@ jsvcn.verify([file|hash]).then((response) => {
         <div v-if="orgProgress">Org. Progress...</div>
         <div v-if="orgAsset">
           <h3>
-            Authentication against organization:
+            Authentication against
             <strong>{{organization}}</strong>
+            :
+            <strong>{{orgAsset.verification.status}}</strong>
           </h3>
+          <br />
+          <br />
           <div class="result">
             <vue-json-pretty :data="orgAsset"></vue-json-pretty>
           </div>
@@ -76,7 +69,6 @@ import VueJsonPretty from "vue-json-pretty";
 export default {
   props: {
     msg: String,
-    organization: String
   },
   components: {
     VueJsonPretty
@@ -87,36 +79,31 @@ export default {
     orgAsset: null,
     progress: 0,
     orgProgress: 0,
-    staging: true
+    staging: true,
+    organization: ""
   }),
-  computed: {
-    config() {
-      return this.staging
-        ? {
-            assetUrl: "https://api.staging.codenotary.io/foundation/v1",
-            blockchainUrl: "https://main.staging.codenotary.io",
-            blockchainAssetAddress:
-              "0x05ce69454a13c8ac0bd20fdc48b09068f5c0a5ed",
-            blockchainOrganizationAddress:
-              "0x4a9a0547949ec55ecbf06738e8c2bad747f410bb"
-          }
-        : undefined;
-    }
-  },
   methods: {
     async verify(target) {
-      const jsvcn = new Jsvcn(this.config);
-      const result = await jsvcn.verify(target, this.onProgressChange);
-      this.asset = result;
+      const jsvcn = new Jsvcn();
+      try {
+        const result = await jsvcn.verify(target, this.onProgressChange);
+        this.asset = result;
+      } catch (e) {
+        alert(e.message);
+      }
     },
     async verifyAgainstOrg(target) {
-      const jsvcnOrg = new Jsvcn(this.config);
-      const result = await jsvcnOrg.verify(
-        target,
-        this.onProgressChange,
-        this.organization
-      );
-      this.orgAsset = result;
+      const jsvcnOrg = new Jsvcn();
+      try {
+        const result = await jsvcnOrg.verify(
+          target,
+          this.onProgressChange,
+          this.organization
+        );
+        this.orgAsset = result;
+      } catch (e) {
+        alert(e.message);
+      }
     },
     async onFileChange(event) {
       const file = event.target.files[0];

@@ -15,30 +15,8 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
-              <p class="control">
-                <input
-                  :class="isAuthRequired && email ==='' ? 'input is-danger' : 'input'"
-                  placeholder="Email"
-                  type="text"
-                  v-model="email"
-                />
-              </p>
-              <p class="control">
-                <input
-                  :class="isAuthRequired && password==='' ? 'input is-danger' : 'input'"
-                  placeholder="Password"
-                  type="password"
-                  v-model="password"
-                />
-              </p>
-              <p class="control">
-                <input
-                  class="input"
-                  placeholder="Organization (optional)"
-                  type="text"
-                  v-model="organization"
-                />
-              </p>
+             
+             
             </div>
           </div>
         </div>

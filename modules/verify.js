@@ -48,8 +48,9 @@ class Verify {
 		} else {
 			const { data } = (this.organization) ? await this.apiService.verifyAgainstOrganization(hash, this.organization) : await this.apiService.verify(hash)
 			response = data
+			response.verification.status = assetStatus(data.verification.status)
+			response.verification.level = assetLevel(data.verification.level)
 		}
-
 		return response
 
 	}
