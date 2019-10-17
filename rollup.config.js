@@ -29,6 +29,7 @@ export default {
 			compact: true
 		}),
 		minify({
+			comments: false
 		})
 	]
 }
