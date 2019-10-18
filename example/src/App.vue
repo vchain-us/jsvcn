@@ -15,15 +15,13 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
-             
-             
             </div>
           </div>
         </div>
       </div>
     </nav>
     <section class="section">
-      <router-view v-bind="globalProps"></router-view>
+      <router-view></router-view>
     </section>
   </div>
 </template>
@@ -46,7 +44,7 @@ export default {
       };
     },
     isAuthRequired() {
-      return this.$route.name === "sign";
+      // return this.$route.name === "sign";
     }
   },
   components: {}

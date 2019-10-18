@@ -7,7 +7,14 @@
             <label class="label">Notarize a file</label>
             <div class="file">
               <label class="file-label">
-                <input class="file-input" type="file" id="file" name="file" @change="onFileChange" />
+                <input
+                  class="file-input"
+                  type="file"
+                  id="file"
+                  name="file"
+                  @change="onFileChange"
+                  @click="resetState"
+                />
                 <span class="file-cta">
                   <span class="file-label">Choose a file…</span>
                 </span>
@@ -16,16 +23,16 @@
             <hr />
             <p class="control">
               <input
-                :class="isAuthRequired && email ==='' ? 'input is-danger' : 'input'"
+                class="input"
                 placeholder="Email"
                 type="text"
                 v-model="email"
               />
             </p>
-            <br/>
+            <br />
             <p class="control">
               <input
-                :class="isAuthRequired && password==='' ? 'input is-danger' : 'input'"
+                class="input"
                 placeholder="Password"
                 type="password"
                 v-model="password"
@@ -58,14 +65,13 @@ import VueJsonPretty from "vue-json-pretty";
 
 export default {
   props: {
-    msg: String,
+    msg: String
   },
   data: () => ({
     email: "",
     password: "",
     asset: null,
     hash: null,
-    orgAsset: null,
     progress: false,
     staging: true
   }),
@@ -82,11 +88,13 @@ export default {
         }
       });
       try {
+        this.resetState();
         this.progress = true;
         const result = await jsvcn.sign(target, {});
         this.asset = result;
         this.progress = false;
       } catch (e) {
+        this.resetState();
         alert(e.message);
       }
     },
@@ -98,7 +106,7 @@ export default {
       await this.sign(this.hash);
     },
     resetState() {
-      this.asset = {};
+      this.asset = null;
       this.progress = 0;
     }
   }

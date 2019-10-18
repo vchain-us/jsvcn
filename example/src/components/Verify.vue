@@ -7,7 +7,7 @@
             <label class="label">Authenticate a file</label>
             <div class="file">
               <label class="file-label">
-                <input class="file-input" type="file" id="file" name="file" @change="onFileChange" />
+                <input class="file-input" type="file" id="file" name="file" @change="onFileChange" @click="resetState" />
                 <span class="file-cta">
                   <span class="file-label">Choose a file…</span>
                 </span>
@@ -20,6 +20,7 @@
                 class="input"
                 placeholder="Organization name (optional)"
                 type="text"
+                @click="resetState" 
                 v-model="organization"
               />
             </p>
@@ -68,7 +69,7 @@ import VueJsonPretty from "vue-json-pretty";
 
 export default {
   props: {
-    msg: String,
+    msg: String
   },
   components: {
     VueJsonPretty
@@ -102,6 +103,7 @@ export default {
         );
         this.orgAsset = result;
       } catch (e) {
+        this.resetState();
         alert(e.message);
       }
     },
@@ -121,9 +123,9 @@ export default {
       this.orgProgress = progress; // returns only when file size is 50Mb+..
     },
     resetState() {
-      this.asset = {};
-      this.orgAsset = {};
-      this.progress = 0;
+      this.asset = null;
+      this.orgAsset = null;
+      this.progress = false;
     }
   }
 };
