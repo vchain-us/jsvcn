@@ -6,10 +6,11 @@ import { isValidLocalPath } from "../utils/misc";
 class Verify {
 
 	constructor(clientService, options) {
-		const { validationOnly, checksums, organization } = options;
+		const { validationOnly, checksums, organization, signers } = options;
 		this.algorithms = (typeof checksums === 'object') ? ["sha256", ...checksums] : ["sha256"];
 		this.validationOnly = !!validationOnly;
 		this.organization = organization;
+		this.signers = signers || [];
 		this.clientMode = clientService.type
 
 		if (this.clientMode === 'blockchain') {
@@ -27,8 +28,16 @@ class Verify {
 
 		if (this.clientMode === 'blockchain') {
 
-			const { valid, meta } = (this.organization) ? await this.blockchainService.verifyAgainstOrganization(hash, this.organization) : await this.blockchainService.verify(hash)
+			let data
+			if (this.organization) {
+				data = await this.blockchainService.verifyAgainstOrganization(hash, this.organization)
+			} else if (this.signers.length > 0) {
+				data = await this.blockchainService.verifyAgainstPublicKeys(hash, this.signers)
+			} else {
+				data = await this.blockchainService.verify(hash)
+			}
 
+			const { valid, meta } = data
 			const { owner, level, status, timestamp } = meta
 
 			response = {
@@ -46,8 +55,14 @@ class Verify {
 			}
 
 		} else {
-			const { data } = (this.organization) ? await this.apiService.verifyAgainstOrganization(hash, this.organization) : await this.apiService.verify(hash)
-			response = data
+			if (this.organization) {
+				response = await this.apiService.verifyAgainstOrganization(hash, this.organization)
+			} else if (this.signers.length > 0) {
+				response = await this.apiService.verifyAgainstPublicKeys(hash, this.signers)
+			} else {
+				response = await this.apiService.verify(hash)
+			}
+
 			response.verification.status = assetStatus(data.verification.status)
 			response.verification.level = assetLevel(data.verification.level)
 		}
