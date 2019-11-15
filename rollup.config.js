@@ -14,16 +14,18 @@ export default {
 		external: ['ethers']
 	},
 	plugins: [
-		babel({
-			runtimeHelpers: true,
-			externalHelpers: true,
-		}),
 		nodeResolve({
 			jsnext: true,
-			main: true
+			main: true,
+			browser: true,
 		}),
 		commonjs({
 
+		}),
+		babel({
+			runtimeHelpers: true,
+			externalHelpers: true,
+			exclude: 'node_modules/**',
 		}),
 		json({
 			compact: true
