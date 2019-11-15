@@ -1,26 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en-US">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<title>jsvcn-example</title>
-	<script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript"></script>
-	<script src="../dist/jsvcn.min.js" charset="utf-8" type="text/javascript"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=yes">
+  <title>CodeNotary / Authenticate Digital Asset Organization</title>
+  <link rel="shortcut icon" type="image/png" href="assets//favicon.ico" />
+  <link rel="shortcut icon" type="image/png" href="https://decode.codenotary.io/favicon.ico" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
+  <script src="https://unpkg.com/jsvcn@2.1.1/dist/jsvcn.min.js" charset="utf-8" type="text/javascript"></script>
+  
+  <script>
+    function onAuthenticate() {
+      const jsvcn = new Jsvcn();
+      var hash = document.getElementById('dataInput').value
+      var orgname = document.getElementById('dataOrg').value
+      var result = document.getElementById('result')
+
+      jsvcn.verify(hash, null, orgname).then((response) => {
+        result.innerHTML = JSON.stringify(response, null, 4);
+
+      });
+    }
+  </script>
 </head>
 
 <body>
-	<button onClick="verifyHash('86df8371340859c115b43bd68d17336736cdc2ae8e687631adfa7d0b146e37d8')">Verify Test</button>
-	<script>
-		function verifyHash(hash) {
-			const jsvcn = new Jsvcn();
-			jsvcn.verify(hash).then((response) => {
-				console.log(response)
-				alert(response.filename)
-			})
-		}
-	</script>
+  <div class="container">
+
+    <div class="jumbotron" style="background-color:#16679a;">
+      <img src="assets/cn-color.eeadbabe.svg" class="rounded float-left" style="max-height: 50px;fill:#ffffff;">
+      <h2 style="color:#ffffff;">CodeNotary Digital Asset Index</h2>
+    </div>
+    <div class="row">
+
+      <div class="col-sm-3">
+        <div class="actions"></div>
+        <label>Digital Asset Hash</label>
+        <textarea class="form-control" placeholder="please paste your digital asset hash" rows="5"
+          id="dataInput"></textarea>
+        <br />
+        <input class="form-control" placeholder="please enter the Org name (domain)" id="dataOrg"></textarea>
+        <br />
+        <p>Notarize your own digital assets </br><a href="https://www.codenotary.io" target="_blank">using
+            CodeNotary</a></p>
+      </div>
+
+      <div class="col-sm-2 text-center">
+        <div class="actions" style="margin-top: 30px;">
+          <button onclick="onAuthenticate()" class="btn btn-primary btn-lg" id="auth">Authenticate</button>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <div>
+          <label>Digital Asset Authentication result</label>
+          </br>
+          <pre class="prettyprint lang-js" id="result"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>jsvcn-example</title>
+  <script src="https://unpkg.com/jsvcn@2.1.1/dist/jsvcn.min.js" charset="utf-8" type="text/javascript"></script>
+</head>
+
+<body>
+	<button onClick="verifyHash('86df8371340859c115b43bd68d17336736cdc2ae8e687631adfa7d0b146e37d8')">Verify Test</button>
+	<script>
+		function verifyHash(hash) {
+			const jsvcn = new Jsvcn();
+			jsvcn.verify(hash).then((response) => {
+				alert(response.name)
+			})
+		}
+	</script>
+</body>
+
+</html>

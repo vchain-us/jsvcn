@@ -51,22 +51,26 @@ class Verify {
 			if (valid && !this.validationOnly) {
 				const metaHash = hashMeta(owner, level, status, timestamp);
 				const asset = await this.asset(hash, metaHash)
-				response = { ...asset, ...response }
+				response = { ...asset, verification: response }
 			}
+
+			return response
 
 		} else {
+			let data 
 			if (this.organization) {
-				response = await this.apiService.verifyAgainstOrganization(hash, this.organization)
+				data = await this.apiService.verifyAgainstOrganization(hash, this.organization)
 			} else if (this.signers.length > 0) {
-				response = await this.apiService.verifyAgainstPublicKeys(hash, this.signers)
+				data = await this.apiService.verifyAgainstPublicKeys(hash, this.signers)
 			} else {
-				response = await this.apiService.verify(hash)
+				data = await this.apiService.verify(hash)
 			}
+			response = data.data
+			response.verification.status = assetStatus(response.verification.status)
+			response.verification.level = assetLevel(response.verification.level)
+			return response
 
-			response.verification.status = assetStatus(data.verification.status)
-			response.verification.level = assetLevel(data.verification.level)
 		}
-		return response
 
 	}
 
