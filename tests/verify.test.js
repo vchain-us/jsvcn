@@ -1,9 +1,7 @@
 
-const mockVerify = jest.fn()
+const mockVerify = { verify:  jest.fn()}
 const mockGetArtifactByHashAndMetaHash = jest.fn()
-jest.mock('../lib/codenotaryBlockchain', () => () => ({
-	verify: mockVerify,
-}));
+
 
 jest.mock('../lib/codenotaryFoundation', () => () => ({
 	getArtifactByHashAndMetaHash: mockGetArtifactByHashAndMetaHash,
@@ -15,9 +13,11 @@ const HASH = "abc"
 
 const TEST_URL = "http://test.local"
 
-const BASE_CONFIG = { blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAssetAddress: "123", blockchainOrganizationAddress: "123" }
+const BASE_CONFIG_API = {mode: 'api'}
 
-const VALIDATIONONLY_CONFIG = { ...BASE_CONFIG, validationOnly: true }
+const BASE_CONFIG_BLOCKCHAIN = { mode: 'blockchain', blockchainUrl: TEST_URL, assetUrl: TEST_URL, blockchainAssetAddress: "123", blockchainOrganizationAddress: "123" }
+
+const VALIDATIONONLY_CONFIG = { ...BASE_CONFIG_BLOCKCHAIN, validationOnly: true }
 
 
 const TEST_FILE = new File(["foo"], "foo.txt", {
@@ -29,31 +29,31 @@ describe('verify', () => {
 
 		it('should throw error when blockchain url is not present in config', () => {
 
-			expect(() => { new Verify({ blockchainUrl: null }); }).toThrowError("blockchainUrl is missing from configuration")
+			expect(() => { new Verify(mockVerify, { blockchainUrl: null }); }).toThrowError("blockchainUrl is missing from configuration")
 
 		});
 
 		it('should throw error when asset url is not present in config', () => {
 
-			expect(() => { new Verify({ ...BASE_CONFIG, assetUrl: null }); }).toThrowError("assetUrl is missing from configuration")
+			expect(() => { new Verify(mockVerify, { ...BASE_CONFIG_BLOCKCHAIN, assetUrl: null }); }).toThrowError("assetUrl is missing from configuration")
 
 		});
 
 		it('should throw error when blockchain address is not present in config', () => {
 
-			expect(() => { new Verify({ ...BASE_CONFIG, blockchainAssetAddress: null }); }).toThrowError("blockchainAssetAddress is missing from configuration")
+			expect(() => { new Verify(mockVerify, { ...BASE_CONFIG_BLOCKCHAIN, blockchainAssetAddress: null }); }).toThrowError("blockchainAssetAddress is missing from configuration")
 
 		});
 
 		it('should throw error when blockchain contract is not present in config', () => {
 
-			expect(() => { new Verify({ ...BASE_CONFIG, blockchainOrganizationAddress: null }); }).toThrowError("blockchainOrganizationAddress is missing from configuration")
+			expect(() => { new Verify(mockVerify, { ...BASE_CONFIG_BLOCKCHAIN, blockchainOrganizationAddress: null }); }).toThrowError("blockchainOrganizationAddress is missing from configuration")
 
 		});
 
 		it('should have sha256 algo perconfigured', () => {
 
-			const verify = new Verify({ ...BASE_CONFIG });
+			const verify = new Verify(mockVerify, { ...BASE_CONFIG_BLOCKCHAIN });
 
 			expect(verify.algorithms).toEqual(["sha256"]);
 
@@ -62,7 +62,7 @@ describe('verify', () => {
 
 		it('should add checksums from config to algorithms', () => {
 
-			const verify = new Verify({ ...BASE_CONFIG, checksums: ["sha1"] });
+			const verify = new Verify(mockVerify, { ...BASE_CONFIG_BLOCKCHAIN, checksums: ["sha1"] });
 
 			expect(verify.algorithms).toEqual(["sha256", "sha1"]);
 
@@ -76,7 +76,7 @@ describe('verify', () => {
 
 		it('should throw error when no hash provided', async () => {
 
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			let errorMessage = 'Nope';
 			try {
@@ -89,7 +89,7 @@ describe('verify', () => {
 
 
 		it('should return with the hash and status when the verified asset is not on the blockchain', async () => {
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			mockVerify.mockReturnValue({ valid: false, meta: {} });
 
@@ -103,7 +103,7 @@ describe('verify', () => {
 
 
 		it('should return with blockchain values (status and level) and not from codenotary asset response', async () => {
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			mockVerify.mockReturnValue({ valid: true, meta: { status: 1, level: 1 } });
 			verify.asset = () => ({ status: 2, level: 2 })
@@ -115,7 +115,7 @@ describe('verify', () => {
 
 
 		it('should return with the hash and status when the verified asset is on the blockchain but requested with validation only', async () => {
-			const verify = new Verify(VALIDATIONONLY_CONFIG);
+			const verify = new Verify(mockVerify, VALIDATIONONLY_CONFIG);
 
 			mockVerify.mockReturnValue({ valid: true, meta: {} });
 			verify.asset = () => ({ arg: "" })
@@ -131,7 +131,7 @@ describe('verify', () => {
 
 
 		it('should return with hash, status, level and asset arguments when the verified asset is on the blockchain', async () => {
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			mockVerify.mockReturnValue({ valid: true, meta: {} });
 			verify.asset = () => ({ arg: "" })
@@ -151,7 +151,7 @@ describe('verify', () => {
 
 		it('should throw error when no hash provided', async () => {
 
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			let errorMessage = 'Nope';
 			try {
@@ -164,7 +164,7 @@ describe('verify', () => {
 
 
 		it('should return with the hash, status, checksums and asset arguments', async () => {
-			const verify = new Verify(BASE_CONFIG);
+			const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 			mockVerify.mockReturnValue({ valid: true, meta: {} });
 			verify.asset = () => ({ arg: "" })
