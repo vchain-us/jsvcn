@@ -93,15 +93,15 @@ describe('hash', () => {
 		const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
 		const response = await verify.hash(HASH)
-		expect(response).toHaveProperty("status");
-		expect(response).toHaveProperty("level");
-		expect(response).toHaveProperty("hash");
-		expect(response).toHaveProperty("owner");
-		expect(response).toHaveProperty("timestamp");
+		expect(response.verification).toHaveProperty("status");
+		expect(response.verification).toHaveProperty("level");
+		expect(response.verification).toHaveProperty("hash");
+		expect(response.verification).toHaveProperty("owner");
+		expect(response.verification).toHaveProperty("timestamp");
 	});
 
 
-	it('should return with blockchain values (status and level) and not from codenotary asset response', async () => {
+	it('should return w/ blockchain status and level values instead of codenotary asset response', async () => {
 		mockVerify.service.blockchainService.verify = () => ({
 			valid: true,
 			meta: {
@@ -114,13 +114,15 @@ describe('hash', () => {
 
 
 		verify.asset = () => ({
-			status: 2,
-			level: 2
+			verification: {
+				status: 2,
+				level: 2
+			}
 		})
 
 		const response = await verify.hash(HASH)
-		expect(response.status).toBe("UNTRUSTED");
-		expect(response.level).toBe("EMAIL_VERIFIED");
+		expect(response.verification.status).toBe("UNTRUSTED");
+		expect(response.verification.level).toBe("EMAIL_VERIFIED");
 	});
 
 
@@ -138,11 +140,11 @@ describe('hash', () => {
 		})
 
 		const response = await verify.hash(HASH)
-		expect(response).toHaveProperty("status");
-		expect(response).toHaveProperty("level");
-		expect(response).toHaveProperty("hash");
-		expect(response).toHaveProperty("owner");
-		expect(response).toHaveProperty("timestamp");
+		expect(response.verification).toHaveProperty("status");
+		expect(response.verification).toHaveProperty("level");
+		expect(response.verification).toHaveProperty("hash");
+		expect(response.verification).toHaveProperty("owner");
+		expect(response.verification).toHaveProperty("timestamp");
 
 	});
 
@@ -155,15 +157,12 @@ describe('hash', () => {
 
 		const verify = new Verify(mockVerify, BASE_CONFIG_BLOCKCHAIN);
 
-		verify.asset = () => ({
-			arg: ""
-		})
+		verify.asset = () => ({})
 
 		const response = await verify.hash(HASH)
-		expect(response).toHaveProperty("status");
-		expect(response).toHaveProperty("hash");
-		expect(response).toHaveProperty("level");
-		expect(response).toHaveProperty("arg");
+		expect(response.verification).toHaveProperty("status");
+		expect(response.verification).toHaveProperty("hash");
+		expect(response.verification).toHaveProperty("level");
 
 	});
 
@@ -200,11 +199,9 @@ describe('file', () => {
 		})
 
 		const response = await verify.file(TEST_FILE)
-		expect(response).toHaveProperty("status");
-		expect(response).toHaveProperty("hash");
+		expect(response.verification).toHaveProperty("status");
+		expect(response.verification).toHaveProperty("hash");
 		expect(response).toHaveProperty("checksums");
-		expect(response).toHaveProperty("arg");
-
 	});
 
 });

@@ -48,13 +48,13 @@ class Verify {
 				owner
 			}
 
+			let asset = {}
 			if (valid && !this.validationOnly) {
 				const metaHash = hashMeta(owner, level, status, timestamp);
-				const asset = await this.asset(hash, metaHash)
-				response = { ...asset, verification: response }
+				asset = await this.asset(hash, metaHash)
 			}
-
-			return response
+			
+			return { ...asset, verification: response }
 
 		} else {
 			let data 
