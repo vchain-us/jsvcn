@@ -60,7 +60,7 @@ describe('blockchain client', () => {
 			expect(data.meta.status).toEqual(INVALID[2])
 			expect(data.meta.timestamp).toEqual(INVALID[3])
 
-		});
+		});*/
 
 	});
 
@@ -83,6 +83,6 @@ describe('blockchain client', () => {
 
 			expect(client.isValidResponse(["0x0000000000000000000000000000000000000000"])).toBeFalsy()
 
-		});*/
+		});
 	})
 })
