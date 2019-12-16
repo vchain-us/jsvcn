@@ -16,7 +16,6 @@ class Jsvcn {
 		const mode = config.mode || 'api'
 
 		const credentials = config.credentials || {}
-
 		const assetUrl = config.assetUrl || ASSET_URL;
 		const apiUrl = config.apiUrl || API_URL;
 		const blockchainUrl = config.blockchainUrl || BLOCKCHAIN_URL;

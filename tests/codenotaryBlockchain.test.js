@@ -20,7 +20,6 @@ describe('blockchain client', () => {
 	describe('verify', () => {
 
 
-
 		it('should throw error when first parameter is missing', async () => {
 
 			let errorMessage = 'No error thrown.';
@@ -33,7 +32,7 @@ describe('blockchain client', () => {
 
 		})
 
-
+		/*
 		it('should return with response valid object', async () => {
 
 			// overwrite bc methods
@@ -61,7 +60,7 @@ describe('blockchain client', () => {
 			expect(data.meta.status).toEqual(INVALID[2])
 			expect(data.meta.timestamp).toEqual(INVALID[3])
 
-		});
+		});*/
 
 	});
 
