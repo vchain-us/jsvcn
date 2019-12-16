@@ -44,11 +44,11 @@ class Jsvcn {
 
 		const { checksums, validationOnly } = this
 
-		const organization = typeof against === String ? against : undefined
+    const organization = typeof against === "string" ? against : undefined
 
-		const signers = typeof against === Array ? against : undefined
+		const signers = Array.isArray(against) ? against : undefined
 
-		const verify = new Verify(this.clientService, { organization, signers, checksums, validationOnly })
+    const verify = new Verify(this.clientService, { organization, signers, checksums, validationOnly })
 
 		if (input instanceof File) {
 			return verify.file(input, onProgress)
