@@ -1,6 +1,6 @@
 {
   "name": "jsvcn",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "CodeNotary JS Client",
   "main": "index.js",
   "scripts": {
