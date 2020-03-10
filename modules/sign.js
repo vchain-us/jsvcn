@@ -24,9 +24,9 @@ class Sign {
 		if (signType === "SIGN") {
 			response = await this.clientService.sign(hash, signData)
 		} else if (signType === "UNTRUST") {
-			response = await this.clientService.untrust(hash)
+			response = await this.clientService.untrust(hash, signData)
 		} else if (signType === "UNSUPPORT") {
-			response = await this.clientService.unsupport(hash)
+			response = await this.clientService.unsupport(hash, signData)
 		}
 
 		return {
