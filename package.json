@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "ethers": "^4.0.36",
+    "ethers": "^4.0.40",
     "filereader": "^0.10.3",
     "js-md5": "^0.7.3",
     "js-sha1": "^0.6.0",
