@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "bulma": "^0.7.5",
+    "bulma": "^0.8.0",
     "core-js": "^2.6.5",
     "jsvcn": "git+https://github.com/vchain-us/jsvcn.git",
     "vue": "^2.6.10",
