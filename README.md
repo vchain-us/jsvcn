@@ -135,6 +135,14 @@ const jsvcn = new Jsvcn({
 );
 ```
 
+**Public Notarization**
+
+```javascript
+jsvcn.sign(file, { public: true }).then((response) => {
+ ...
+})
+```
+
 More information about the response format: [#] (CodeNotary API Documentation])
 
 ## Untrust / Unsupport 
