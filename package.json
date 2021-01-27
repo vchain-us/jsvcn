@@ -46,7 +46,7 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "jest": "^25.2.7",
     "jest-fetch-mock": "^3.0.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "mocktract": "github:matryx/mocktract-ethers.js",
     "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.4.0",
@@ -56,8 +56,8 @@
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "ethers": "^4.0.46",
+    "axios": "^0.21.1",
+    "ethers": "^5.0.26",
     "filereader": "^0.10.3",
     "js-md5": "^0.7.3",
     "js-sha1": "^0.6.0",
