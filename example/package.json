@@ -13,7 +13,7 @@
     "core-js": "^2.6.11",
     "jsvcn": "git+https://github.com/vchain-us/jsvcn.git",
     "vue": "^2.6.11",
-    "vue-json-pretty": "^1.6.2",
+    "vue-json-pretty": "^1.8.3",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {
